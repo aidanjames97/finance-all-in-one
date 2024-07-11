@@ -1,23 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from "./Header";
+import Totals from "./Totals";
+import Banking from "./Banking";
+import Investments from "./Investments";
+import Debts from "./Debts.js"
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='header-wrapper'>
+        <Header active={'Home'} />
+      </div>
+      <div className='grid-display'>
+        <div className='grid-wrapper'>
+          <Totals />
+        </div>
+        <div className='grid-wrapper'>
+          <Debts />
+        </div>
+        <div className='grid-wrapper'>
+          <Banking />
+        </div>
+        <div className='grid-wrapper'>
+          <Investments />
+        </div>
+      </div>
     </div>
   );
 }

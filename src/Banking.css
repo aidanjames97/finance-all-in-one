@@ -1,0 +1,23 @@
+.Banking {
+    height: 96%;
+    margin: 1% 2%;
+    display: flex;
+    flex-direction: column;
+}
+
+.banking-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 0.25;
+    height: 25%;
+}
+
+.banking-value > h2, .banking-value > h1 {
+    margin: 0;
+    font-weight: 400;
+}
+
+.banking-value > h1 {
+    font-weight: 500;
+}
