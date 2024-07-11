@@ -7,7 +7,7 @@ const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "
 const date = new Date()
 
 const colors = ["SkyBlue", "Green", "Coral","Yellow", "SteelBlue"]
-const allTypes = [{what: 'House', d:350000.00}, {what: 'Checking', d:13016.33}, {what: 'Savings', d:81784.00}, {what: 'Stocks', d:187456.11}]
+const allTypes = [ {what: 'Checking', d:13016.33}, {what: 'Savings', d:81784.00}, {what: 'Stocks', d:87456.11}, {what: 'Retirement', d:45778.32}]
 
 // calculate sum for netWorth and format for currency
 const allTypesMoney = allTypes.map(allTypes => allTypes.d)
@@ -34,7 +34,7 @@ function Totals() {
         </div>
         <div className='totals-list'>
           {allTypes.map((item, index) => (
-            <div className='totals-list-item'>
+            <div className='totals-list-item' key={index} >
               <span style={{backgroundColor: colors[index], width:'5px', height:'30px', borderRadius:'2px'}}></span>
               <li key={index}>{item.what}</li>
             </div>

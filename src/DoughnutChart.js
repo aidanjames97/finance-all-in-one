@@ -1,7 +1,6 @@
 import React from 'react';
 import 'chart.js/auto'
 import { Doughnut } from 'react-chartjs-2';
-import { plugins } from 'chart.js/auto';
 
 const DoughnutChart = ({ colors, allTypes }) => {
 
@@ -35,5 +34,4 @@ const DoughnutChart = ({ colors, allTypes }) => {
         </div>
     );
 };
-
 export default DoughnutChart;

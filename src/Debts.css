@@ -1,23 +1,95 @@
 .Debts {
     height: 96%;
     margin: 1% 2%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
 }
 
-.debts-heading {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex: 0.25;
-    height: 25%;
+.debts-left {
+    display: grid;
+    grid-template-rows: 25% 75%;
 }
 
-.debts-value > h2, .debts-value > h1 {
+.debts-value > h2, .debts-value > h1, .debts-due > h1, .debts-due > h2 {
     margin: 0;
     font-weight: 400;
 }
 
 .debts-value > h1 {
     font-weight: 500;
+}
+
+.debts-chart {
+    height: 100%;
+}
+
+.debts-list-item-wrapper {
+    width: 100%;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.debts-body-info {
+    height: 290px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.debts-body-info::-webkit-scrollbar {
+    display: none;
+}
+
+.debts-list-item {
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 29% 40% 25%;
+}
+.debts-list-heading {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+.debts-list-heading > h1 {
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+}
+.debts-list-heading > h2 {
+    font-weight: 400;
+    font-size: 18px;
+    margin: 0;
+}
+
+.debts-list-bar {
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.debts-list-bar > h1 {
+    font-size: 10px;
+    margin: 0 5px;
+    font-weight: 400;
+}
+
+.debts-list-date {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.debts-list-date > h1 {
+    font-weight: 600;
+    margin: 0;
+    font-size: 18px;
+}
+.debts-list-date > h2 {
+    font-weight: 400;
+    margin: 0;
+    font-size: 16px;
 }

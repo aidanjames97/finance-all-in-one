@@ -3,6 +3,7 @@
     margin: 1% 2%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
 
 .investments-left-side {
@@ -62,13 +63,13 @@
 .investments-list-item-graph {
     height: 90%;
     margin: 0 5%;
-    border: 1px solid salmon;
 }
 .investments-list-item-info {
     height: 90%;
     display: flex;
     flex-direction: column;
     align-items: end;
+    justify-content: center;
 }
 .investments-list-item-info > h1 {
     font-size: 15px;
