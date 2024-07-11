@@ -1,0 +1,82 @@
+.Investments {
+    height: 98%;
+    margin: 1% 2%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.investments-left-side {
+    display: grid;
+    grid-template-rows: 25% 75%;
+}
+.investments-right-side {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 300px;
+}
+.investments-right-side::-webkit-scrollbar {
+    display: none;
+}
+
+.investments-graph {
+    height: 75%;
+}
+
+.investments-value > h2, .investments-value > h1 {
+    margin: 0;
+    font-weight: 400;
+}
+
+.investments-value > h1 {
+    font-weight: 500;
+}
+
+.investments-list-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.investments-list-item {
+    display: grid;
+    grid-template-columns: 17% 60% 23%;
+    align-items: center;
+    height: 60px;
+}
+
+.investments-list-item-header  > h1{
+    font-size: 20px;
+    margin: 0;
+}
+.investments-list-item-header > h3 {
+    font-size: 14px;
+    font-weight: 300;
+    margin: 0;
+}
+
+.investments-list-item-header {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.investments-list-item-graph {
+    height: 90%;
+    margin: 0 5%;
+    border: 1px solid salmon;
+}
+.investments-list-item-info {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.investments-list-item-info > h1 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0;
+}
+.investments-list-item-info > h2 {
+    font-size: 12px;
+    font-weight: 200;
+    margin: 0;
+}

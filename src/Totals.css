@@ -1,0 +1,51 @@
+.Totals {
+    height: 96%;
+    margin: 1% 2%;
+    display: flex;
+    flex-direction: column;
+}
+
+.totals-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 0.25;
+    height: 25%;
+}
+
+.totals-net-worth > h2, .totals-net-worth > h1, .totals-date > h1, .totals-date > h2 {
+    margin: 0;
+    font-weight: 400;
+}
+
+.totals-net-worth > h1, .totals-date > h1 {
+    font-weight: 500;
+}
+
+.totals-body {
+    flex: 0.75;
+    height: 74%;
+    margin-bottom: 1%;
+    display: flex;
+    flex-direction: row;
+}
+.totals-graph {
+    width: 70%;
+}
+.totals-list {
+    height: 100%;
+    width: 30%;
+    display: flex;
+    align-items: left;
+    justify-content: center;
+}
+
+.totals-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+.totals-list-item {
+    margin: 5px;
+    display: flex;
+}
