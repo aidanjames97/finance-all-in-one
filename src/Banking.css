@@ -1,23 +1,65 @@
 .Banking {
     height: 96%;
     margin: 1% 2%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 25% 50% 25%;
 }
 
-.banking-heading {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex: 0.25;
-    height: 25%;
+.banking-value-wrapper {
+    display: grid;
+    height: 70%;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
+}
+.banking-value-left {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
+    text-align: center;
+}
+.banking-value-right {
+    text-align: center;
 }
 
-.banking-value > h2, .banking-value > h1 {
+.banking-value-right > h2, .banking-value-right > h1, .banking-value-left-wrapper > h1, .banking-value-left-wrapper > h2 {
     margin: 0;
     font-weight: 400;
 }
+.banking-value-right > h1, .banking-value-left-wrapper > h1 {
+    font-weight: 500;
+}
 
-.banking-value > h1 {
+.banking-chart-wrapper {
+    display: grid;
+    height: 70%;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
+}
+
+.banking-legend-wrapper {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
+    align-items: center;
+    text-align: center;
+    margin-top: 10px;
+}
+.banking-legend-left {
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 4%;
+}
+
+.banking-legend {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.banking-legend > h3 {
+    margin: 0;
+    margin-left: 5px;
     font-weight: 500;
 }
