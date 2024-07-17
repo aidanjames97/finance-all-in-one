@@ -22,6 +22,7 @@
 
 .debts-chart {
     height: 100%;
+    width: 100%;
 }
 
 .debts-list-item-wrapper {
@@ -32,7 +33,7 @@
 }
 
 .debts-body-info {
-    height: 290px;
+    height: 41vh;
     overflow-y: scroll;
     overflow-x: hidden;
 }

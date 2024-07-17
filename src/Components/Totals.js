@@ -1,6 +1,6 @@
 import React from 'react'
-import "./Totals.css"
-import DoughnutChart from './DoughnutChart';
+import "../Styles/Totals.css"
+import DoughnutChart from '../Charts/DoughnutChart';
 
 // for date display
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
