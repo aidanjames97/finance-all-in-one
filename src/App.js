@@ -1,15 +1,18 @@
-import './App.css';
-import Header from "./Header";
-import Totals from "./Totals";
-import Banking from "./Banking";
-import Investments from "./Investments";
-import Debts from "./Debts.js"
+import './Styles/App.css';
+import Header from "./Components/Header";
+import Totals from "./Components/Totals";
+import Banking from "./Components/Banking";
+import Investments from "./Components/Investments";
+import Debts from "./Components/Debts.js"
+import { useState } from 'react';
 
 function App() {
+  const [active, setActive] = useState('Home');
+
   return (
     <div className="App">
       <div className='header-wrapper'>
-        <Header active={'Home'} />
+        <Header active={active} setActive={setActive} />
       </div>
       <div className='grid-display'>
         <div className='grid-wrapper'>

@@ -1,7 +1,7 @@
 import React from 'react'
-import "./Banking.css"
-import BarChart from "./BarChart"
-import LineChart from './LineChart'
+import "../Styles/Banking.css"
+import BarChart from "../Charts/BarChart"
+import LineChart from '../Charts/LineChart'
 
 const sampleData = [65, 59, 80, 81, 56, 55, 40, 59, 66, 88, 78, 60]
 const sampleDataExp = [60, 50, 70, 61, 46, 35, 30, 49, 56, 80, 68, 44]

@@ -1,20 +1,27 @@
-import React from 'react'
-import "./Investments.css"
-import LineChart from "./LineChart"
+import React from 'react';
+import "../Styles/Investments.css";
+import LineChart from "../Charts/LineChart";
+// import { key } from "../API/api";
+import { db } from "../Firebase"
+import { collection, getDocs } from "firebase/firestore"; 
+
+// const BASE_URL = "https://finnhub.io/api/v1/quote?symbol=";
+// const KEY_URL = `&token=${key}`;
 
 const greenColor = 'rgba(0, 255, 80, 1)';
 const redColor = 'rgba(255, 0, 80, 1)';
 
-const investments = [
-  {tick: 'AAPL', amount: '80', buy: '217.33'},
-  {tick: 'NVDA', amount: '100', buy: '100.33'},
-  {tick: 'CPS', amount: '850', buy: '15.55'},
-  {tick: 'MSFT', amount: '20', buy: '388.36'},
-  {tick: 'AI', amount: '115', buy: '39.13'},
-  {tick: 'TSLA', amount: '60', buy: '205.55'},
-  {tick: 'INTC', amount: '100', buy: '39.13'},
-  {tick: 'GOOG', amount: '115', buy: '200.15'},
-]
+const querySnapshot = await getDocs(collection(db, "stocks"));
+
+let investments = [];
+
+querySnapshot.forEach((doc) => {
+  investments.push({
+    tick: doc.data().ticker,
+    amount: doc.data().shares,
+    buy: doc.data().buyPrice,
+  })
+});
 
 const totalValuesNum = investments.map(investments => investments.amount * investments.buy)
 const totalValues = totalValuesNum.map(totalValuesNum => Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totalValuesNum))
@@ -44,7 +51,7 @@ function Investments() {
             <div className='investments-list-item'>
               <div className='investments-list-item-header'>
                 <h1>{item.tick}</h1>
-                <h3>$123.45</h3>
+                <h3>${item.buy}</h3>
               </div>
               <div className='investments-list-item-graph'>
                 <LineChart dataIn={sampleData} lineColor={'rgba(0, 255, 50, 1)'} scaleDisplay={false} lineWidth='2' />

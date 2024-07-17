@@ -1,25 +1,28 @@
-import React, { useState } from 'react'
-import "./Debts.css"
-import RaderChart from './RadarChart'
-import SideBarChart from './SideBarChart';
+import React from 'react'
+import "../Styles/Debts.css"
+import RadarChart from '../Charts/RadarChart'
+import SideBarChart from '../Charts/SideBarChart';
+import { db } from "../Firebase"
+import { collection, getDocs } from "firebase/firestore"; 
+
+const querySnapshot = await getDocs(collection(db, "debts"));
+
+let debts = [];
+
+querySnapshot.forEach((doc) => {
+  debts.push({
+    type: doc.data().type,
+    amount: doc.data().amount,
+    due: doc.data().due,
+  })
+});
 
 
 // for date display
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-const date = new Date()
-
-const debts = [
-  { what: 'Food', amount: 210.00, due: '2024-07-14' },
-  { what: 'Rent', amount: 420.00, due: '2024-07-20' },
-  { what: 'Savings', amount: 100.00, due: '2024-07-22' },
-  { what: 'Loans', amount: 160.33, due: '2024-07-30' },
-  { what: 'Retirement', amount: 75.00, due: '2024-08-11' },
-  { what: 'Cars', amount: 310.00, due: '2024-08-22' },
-  { what: 'Phone', amount: 40.00, due: '2024-07-21' },
-]
 
 const sp = debts.map(debts => debts.amount)
-const ty = debts.map(debts => debts.what)
+const ty = debts.map(debts => debts.type)
 
 const netDebts = sp.reduce((acc, curr) => acc + curr, 0);
 
@@ -30,14 +33,8 @@ function formatToUsd(num) {
 
 // calcuates days from today to date given, returns that int
 function dateDiff(dateDue) {
-  const d = new Date(dateDue)
-
-  const time1 = d.getTime();
-  const time2 = date.getTime();
-
-  const diffInMs = Math.abs(time2 - time1);
-
-  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+  let d = new Date(dateDue * 1000);
+  let diffInDays = d.getDate()
 
   if(diffInDays > 30) {
     return 30;
@@ -63,11 +60,8 @@ function barBackgroundColor(days) {
 
 // returns string for display from string date
 function dateMonthDay(str) {
-  const d = new Date(str)
-  let out = '';
-  out += months[d.getMonth()]
-  out += ' ' + d.getDate()
-  return out;
+  let d = new Date(str * 1000);
+  return months[d.getMonth()] + ' ' + d.getDate()
 }
 
 function Debts() {
@@ -79,7 +73,7 @@ function Debts() {
           <h1>{formatToUsd(netDebts)}</h1>
         </div>
         <div className='debts-chart'>
-          <RaderChart dataSpending={sp} dataSpendingTypes={ty} />
+          <RadarChart dataSpending={sp} dataSpendingTypes={ty} />
         </div>
       </div>
       <div className='debts-body-info'>
@@ -87,7 +81,7 @@ function Debts() {
           <div className='debts-list-item-wrapper' key={index}>
             <div className='debts-list-item'>
               <div className='debts-list-heading'>
-                <h1>{item.what}</h1>
+                <h1>{item.type.length < 12 ? item.type : '$$'}</h1>
                 <h2>{formatToUsd(item.amount)}</h2>
               </div>
               <div className='debts-list-bar'>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import logo from "./logo.png"
-import profile from "./user.png"
-import "./Header.css"
+import logo from "../Pics/logo.png"
+import profile from "../Pics/user.png"
+import "../Styles/Header.css"
 
-function Header({ active }) {
+function Header({ active, setActive }) {
   return (
     <div className='Header'>
         <div className='header-image-container'>
