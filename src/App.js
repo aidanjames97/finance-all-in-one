@@ -1,7 +1,7 @@
 import './Styles/App.css';
-import Header from "./Components/Header";
+import Header from "./Header";
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import Home from './Components/Home';
+import Home from './Home/Home';
 import Spending from './Debts/DebtsMain';
 import Saving from "./Saving/SavingMain";
 import Investments from "./Investments/InvestmentsMain";

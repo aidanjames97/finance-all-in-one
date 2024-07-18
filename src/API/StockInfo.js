@@ -1,10 +1,9 @@
-function StockInfo() {
-    const finnhub = require('finnhub');
+import { key } from "./api"
 
-    const api_key = finnhub.ApiClient.instance.authentications['api_key'];
-    api_key.apiKey = "cqajf41r01qjmbik6lfgcqajf41r01qjmbik6lg0" // Replace this
-    const finnhubClient = new finnhub.DefaultApi()
+const finnhub = require('finnhub');
 
-    
-}
-export default StockInfo
+const api_key = finnhub.ApiClient.instance.authentications['api_key'];
+api_key.apiKey = key // Replace this
+const finnhubClient = new finnhub.DefaultApi()
+
+export { finnhubClient }

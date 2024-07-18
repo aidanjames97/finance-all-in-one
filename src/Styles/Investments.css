@@ -62,8 +62,8 @@
     justify-content: center;
 }
 .investments-list-item-graph {
-    height: 90%;
-    margin: 0 5%;
+    height: 80%;
+    width: 100%;
 }
 .investments-list-item-info {
     height: 90%;
