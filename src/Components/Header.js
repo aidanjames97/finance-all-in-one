@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
 import logo from "../Pics/logo.png"
 import profile from "../Pics/user.png"
 import "../Styles/Header.css"
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
-function Header({ active, setActive }) {
+function Header() {
+    const [active, setActive] = useState('Home')
+
   return (
     <div className='Header'>
         <div className='header-image-container'>
             <img src={logo} alt="logo alt" />
         </div>
-        <HeaderButtons active={active} />
+        <HeaderButtons active={active} setActive={setActive} />
         <div className='header-profile-container'>
             <img src={profile} alt="profile alt" />
         </div>
@@ -18,42 +21,41 @@ function Header({ active, setActive }) {
 }
 export default Header
 
-function HeaderButtons({ active }) {
-    const [localActive, setActive] = useState(active)
-
-    function handleClick(text) {
-        setActive(text)
+function HeaderButtons({ active, setActive }) {
+    const handleClick = (txt) => {
+        setActive(txt)
     }
 
     return (
         <div className='header-buttons-container'>
-            <HeaderButton text='Home' active={localActive} handleClick={handleClick}/>
-            <HeaderButton text='Spending' active={localActive} handleClick={handleClick}/>
-            <HeaderButton text='Saving' active={localActive} handleClick={handleClick}/>
-            <HeaderButton text='Investments' active={localActive} handleClick={handleClick}/>
+            <Link 
+                className={`links-${active === 'Home' ? 'active' : ''}`}
+                to='/'
+                onClick={() => handleClick('Home')}
+            >
+            Home
+            </Link>
+            <Link 
+                className={`links-${active === 'Spending' ? 'active' : ''}`} 
+                to='/Spending'
+                onClick={() => handleClick('Spending')}
+            >
+            Spending
+            </Link>
+            <Link 
+                className={`links-${active === 'Saving' ? 'active' : ''}`} 
+                to='/Saving'
+                onClick={() => handleClick('Saving')}
+            >
+            Saving
+            </Link>
+            <Link 
+                className={`links-${active === 'Investments' ? 'active' : ''}`} 
+                to='/Investments'
+                onClick={() => handleClick('Investments')}
+            >
+            Investments
+            </Link>
         </div>
-    )
-}
-
-function HeaderButton({ text, active, handleClick }) {
-    let yes = false
-    if(active === text) {
-        yes = true
-    }
-
-    if(yes){
-        return (
-            <div className='button-col'>
-                <button href='#'>{text}</button>
-                <span className='active'></span>
-            </div>
-        )
-    } else {
-        return (
-            <div className='button-col'>
-                <button onClick={() => handleClick(text)} href='#'>{text}</button>
-                <span className='inactive'></span>
-            </div>
-        )
-    }
+    );
 }
