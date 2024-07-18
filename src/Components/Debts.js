@@ -33,8 +33,11 @@ function formatToUsd(num) {
 
 // calcuates days from today to date given, returns that int
 function dateDiff(dateDue) {
-  let d = new Date(dateDue * 1000);
-  let diffInDays = d.getDate()
+  const d = new Date(dateDue.seconds * 1000);
+  const today = new Date()
+
+  const diff = d - today
+  const diffInDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
 
   if(diffInDays > 30) {
     return 30;

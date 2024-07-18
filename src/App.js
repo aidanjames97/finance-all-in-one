@@ -1,33 +1,24 @@
 import './Styles/App.css';
 import Header from "./Components/Header";
-import Totals from "./Components/Totals";
-import Banking from "./Components/Banking";
-import Investments from "./Components/Investments";
-import Debts from "./Components/Debts.js"
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import Home from './Components/Home';
+import Spending from './Debts/DebtsMain';
+import Saving from "./Saving/SavingMain";
+import Investments from "./Investments/InvestmentsMain";
 import { useState } from 'react';
 
 function App() {
-  const [active, setActive] = useState('Home');
-
   return (
     <div className="App">
-      <div className='header-wrapper'>
-        <Header active={active} setActive={setActive} />
-      </div>
-      <div className='grid-display'>
-        <div className='grid-wrapper'>
-          <Totals />
-        </div>
-        <div className='grid-wrapper'>
-          <Debts />
-        </div>
-        <div className='grid-wrapper'>
-          <Banking />
-        </div>
-        <div className='grid-wrapper'>
-          <Investments />
-        </div>
-      </div>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/Spending' element={<Spending />} />
+          <Route exact path='/Saving' element={<Saving />} />
+          <Route exact path='/Investments' element={<Investments />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
