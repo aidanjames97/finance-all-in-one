@@ -2,7 +2,7 @@ import React from 'react'
 import "../Styles/Debts.css"
 import RadarChart from '../Charts/RadarChart'
 import SideBarChart from '../Charts/SideBarChart';
-import { db } from "../Firebase"
+import { db } from "../API/Firebase"
 import { collection, getDocs } from "firebase/firestore"; 
 
 const querySnapshot = await getDocs(collection(db, "debts"));

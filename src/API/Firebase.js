@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { apiKey, appId, messagingSenderId, measurementId } from "./API/firebaseAPI";
+import { apiKey, appId, messagingSenderId, measurementId } from "./api";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -15,7 +15,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);

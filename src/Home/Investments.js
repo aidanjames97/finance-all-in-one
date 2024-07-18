@@ -1,20 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "../Styles/Investments.css";
 import LineChart from "../Charts/LineChart";
-// import { key } from "../API/api";
-import { db } from "../Firebase"
+import { db } from "../API/Firebase"
 import { collection, getDocs } from "firebase/firestore"; 
 
-// const BASE_URL = "https://finnhub.io/api/v1/quote?symbol=";
-// const KEY_URL = `&token=${key}`;
-
+// graph line colors
 const greenColor = 'rgba(0, 255, 80, 1)';
 const redColor = 'rgba(255, 0, 80, 1)';
-
+// finding collection (table) from stock db in firebase
 const querySnapshot = await getDocs(collection(db, "stocks"));
-
+// investment totals per stock
 let investments = [];
-
+// getting data from db
 querySnapshot.forEach((doc) => {
   investments.push({
     tick: doc.data().ticker,
@@ -22,15 +19,17 @@ querySnapshot.forEach((doc) => {
     buy: doc.data().buyPrice,
   })
 });
-
+// calculating investments and formatting to currency
 const totalValuesNum = investments.map(investments => investments.amount * investments.buy)
 const totalValues = totalValuesNum.map(totalValuesNum => Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(totalValuesNum))
-
+// reducing digits and formatting to currency
 const netValue = totalValuesNum.reduce((acc, curr) => acc + curr, 0);
 const formattedNetValue = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(netValue);
 
+// to delete, sample data
 const sampleData = [65, 59, 80, 81, 56, 55, 40, 59, 66, 88, 78, 60]
 
+// component being returned
 function Investments() {
   return (
     <div className='Investments'>

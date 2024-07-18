@@ -1,5 +1,3 @@
 
 
-const key = "";
-
-export { key };
+export { apiKey, appId, messagingSenderId, measurementId, key };

@@ -1,6 +1,6 @@
-import logo from "../Pics/logo.png"
-import profile from "../Pics/user.png"
-import "../Styles/Header.css"
+import logo from "./Pics/logo.png"
+import profile from "./Pics/user.png"
+import "./Styles/Header.css"
 import { Link } from "react-router-dom";
 import { useState } from "react";
 

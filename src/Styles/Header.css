@@ -24,32 +24,35 @@
     transition: ease-in .2s;
     color: rgb(190, 190, 190);
     text-decoration: none;
-    width: 130px;
-    height: 50px;
+    width: fit-content;
+    height: 30px;
     font-size: 20px;
     font-weight: 600;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 10px;
+    margin: 20px 40px;
+    border-bottom: 2px solid transparent;
 }
 .links-:hover {
     transition: ease-in .2s;
     cursor: pointer;
-    color: white;
+    color: rgb(220, 220, 220);
 }
 .links-active {
     transition: ease-in .2s;
     color: white;
     text-decoration: none;
-    width: 130px;
-    height: 50px;
+    width: fit-content;
+    height: 30px;
     font-size: 20px;
     font-weight: 600;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 10px;
+    margin: 20px 40px;
+    border-bottom: 2px solid white;
+    border-radius: 2px;
 }
