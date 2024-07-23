@@ -5,7 +5,6 @@ import Home from './Home/Home';
 import Spending from './Debts/DebtsMain';
 import Saving from "./Saving/SavingMain";
 import Investments from "./Investments/InvestmentsMain";
-import { useState } from 'react';
 
 function App() {
   return (

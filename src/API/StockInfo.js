@@ -1,5 +1,8 @@
 import { key } from "./api"
 
+// const BASE_URL = "https://finnhub.io/api/v1/quote?symbol=";
+// const KEY_URL = `&token=${key}`;
+
 const finnhub = require('finnhub');
 
 const api_key = finnhub.ApiClient.instance.authentications['api_key'];

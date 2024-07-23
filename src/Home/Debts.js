@@ -1,37 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "../Styles/Debts.css"
 import RadarChart from '../Charts/RadarChart'
 import SideBarChart from '../Charts/SideBarChart';
 import { db } from "../API/Firebase"
 import { collection, getDocs } from "firebase/firestore"; 
 
-const querySnapshot = await getDocs(collection(db, "debts"));
-
-let debts = [];
-
-querySnapshot.forEach((doc) => {
-  debts.push({
-    type: doc.data().type,
-    amount: doc.data().amount,
-    due: doc.data().due,
-  })
-});
-
-
-// for date display
-const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-
-const sp = debts.map(debts => debts.amount)
-const ty = debts.map(debts => debts.type)
-
-const netDebts = sp.reduce((acc, curr) => acc + curr, 0);
+const DEBTS_COL = collection(db, 'debts');
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
 // formats numbers to currency
 function formatToUsd(num) {
   return Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
 }
 
-// calcuates days from today to date given, returns that int
+// calcuates days from today to date given, returns how many days (int)
 function dateDiff(dateDue) {
   const d = new Date(dateDue.seconds * 1000);
   const today = new Date()
@@ -64,33 +46,77 @@ function barBackgroundColor(days) {
 // returns string for display from string date
 function dateMonthDay(str) {
   let d = new Date(str * 1000);
-  return months[d.getMonth()] + ' ' + d.getDate()
+  return MONTHS[d.getMonth()] + ' ' + d.getDate()
 }
 
 function Debts() {
+  const [debts, setDebts] = useState([]) // to hold db info
+  const [error, setError] = useState(null) // to hold any errors
+
+  useEffect(() => {
+    // getting firebase data (from firestore 'debts' collection)
+    const getFireData = async () => {
+      const fromCol = await getDocs(DEBTS_COL)
+      return(fromCol.docs.map((elem) => ({ ...elem.data(), id: elem.id})))
+    }
+
+    getFireData()
+    .then((result) => {
+      setDebts(result)
+    })
+    .catch(error => setError(error))
+  }, [])
+
+  if(error) {
+    return (
+      <div className='Debts-error'>Could Not Load Data</div>
+    )
+  } else if(debts) {
+    return (
+      <DebtsDisplay data={debts} />
+    )
+  } else {
+    return (
+      <div className='Debts-error'>
+        <div className='loader'></div>
+      </div>
+    )
+  }
+}
+export default Debts
+
+function DebtsDisplay({ data }) {
+  let total = 0 // total debts
+  let spending = []; // array for debt amounts
+  let spendingTypes = []; // array for debt titles
+  // mapping to local vars
+  data.map((elem) => {
+    total += elem.amount
+    spending.push(elem.amount)
+    spendingTypes.push(elem.type)
+  })
+
   return (
     <div className='Debts'>
       <div className='debts-left'>
         <div className='debts-value'>
           <h2>Amount: </h2>
-          <h1>{formatToUsd(netDebts)}</h1>
+          <h1>{formatToUsd(total)}</h1>
         </div>
         <div className='debts-chart'>
-          <RadarChart dataSpending={sp} dataSpendingTypes={ty} />
+          <RadarChart dataSpending={spending} dataSpendingTypes={spendingTypes} />
         </div>
       </div>
       <div className='debts-body-info'>
-        {debts.map((item, index) => (
+        {data.map((item, index) => (
           <div className='debts-list-item-wrapper' key={index}>
             <div className='debts-list-item'>
               <div className='debts-list-heading'>
-                <h1>{item.type.length < 12 ? item.type : '$$'}</h1>
+                <h1>{item.type.length < 12 ? item.type : item.type.substr(0,8) + '...'}</h1>
                 <h2>{formatToUsd(item.amount)}</h2>
               </div>
               <div className='debts-list-bar'>
-                <h1>0</h1>
-                <SideBarChart dataDaysDue={dateDiff(item.due)} barColorOne={barColor(dateDiff(item.due))} fillColor={barBackgroundColor(dateDiff(item.due))} />
-                <h1>30</h1>
+                <ToDisplayChart item={item} />
               </div>
               <div className='debts-list-date'>
                 <h2>Due:</h2>
@@ -105,4 +131,19 @@ function Debts() {
   )
 }
 
-export default Debts
+function ToDisplayChart({ item }) {
+  if(dateDiff(item.due) < 0) {
+    return (
+      <div className='is-past-due'>
+        <h1>PAST DUE</h1>
+      </div>
+    );
+  }
+  return (
+    <>
+      <h1>0</h1>
+      <SideBarChart dataDaysDue={dateDiff(item.due)} barColorOne={barColor(dateDiff(item.due))} fillColor={barBackgroundColor(dateDiff(item.due))} />
+      <h1>30</h1>
+    </>
+  );
+}
