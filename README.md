@@ -1,7 +1,10 @@
-Right now this project only has sample data, I will be implementing a finance API for stock data.
+This layout includes placeholder charts and made up data. Stock data is calculated from real-time data from 
+Finnhuib API. Debts and stock info is pulled from Firebase.
 
-# Layout w/ Sample Data
+# Home Layout
+<img width="1470" alt="Screenshot 2024-07-24 at 2 35 58 PM" src="https://github.com/user-attachments/assets/f1d15174-f88a-471a-8f78-775a5fbb4a49">
 
-![Screenshot 2024-07-11 at 3 47 51 PM](https://github.com/user-attachments/assets/d4aebdeb-4f66-4d23-a9eb-b681e4fc76a8)
+# Investments Layout
+<img width="736" alt="Screenshot 2024-07-24 at 2 35 42 PM" src="https://github.com/user-attachments/assets/1cd50bbd-b82f-4df6-a018-633449ede64f">
 
 (menus are scrollable)
