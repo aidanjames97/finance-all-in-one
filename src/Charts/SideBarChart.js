@@ -2,13 +2,13 @@ import React from 'react'
 import 'chart.js/auto'
 import { Bar } from 'react-chartjs-2'
 
-const SideBarChart = ({ dataDaysDue, barColorOne, fillColor }) => {
+const SideBarChart = ({ dataIn, barColorOne, fillColor, label, sugMin, sugMax }) => {
     const data = {
-        labels: ['Jan'],
+        labels: label,
         datasets: [
             {
-                label: "Days Untill Due",
-                data: [dataDaysDue],
+                label: label,
+                data: [dataIn],
                 borderWidth: 1,
                 borderColor: barColorOne,
                 backgroundColor: fillColor,
@@ -28,8 +28,8 @@ const SideBarChart = ({ dataDaysDue, barColorOne, fillColor }) => {
         },
         scales: {
             x: {
-                suggestedMin: 0,
-                suggestedMax: 30,
+                suggestedMin: sugMin,
+                suggestedMax: sugMax,
                 display: false,
             },
             y: {
