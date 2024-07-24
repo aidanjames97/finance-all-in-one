@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import "../Styles/Debts.css"
 import RadarChart from '../Charts/RadarChart'
 import SideBarChart from '../Charts/SideBarChart';
-import { db } from "../API/Firebase"
-import { collection, getDocs } from "firebase/firestore"; 
+import "../Styles/Loading.css"
 
-const DEBTS_COL = collection(db, 'debts');
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
 // formats numbers to currency
@@ -49,31 +47,14 @@ function dateMonthDay(str) {
   return MONTHS[d.getMonth()] + ' ' + d.getDate()
 }
 
-function Debts() {
-  const [debts, setDebts] = useState([]) // to hold db info
-  const [error, setError] = useState(null) // to hold any errors
-
-  useEffect(() => {
-    // getting firebase data (from firestore 'debts' collection)
-    const getFireData = async () => {
-      const fromCol = await getDocs(DEBTS_COL)
-      return(fromCol.docs.map((elem) => ({ ...elem.data(), id: elem.id})))
-    }
-
-    getFireData()
-    .then((result) => {
-      setDebts(result)
-    })
-    .catch(error => setError(error))
-  }, [])
-
+function Debts({ myDebts, error }) {
   if(error) {
     return (
       <div className='Debts-error'>Could Not Load Data</div>
     )
-  } else if(debts) {
+  } else if(myDebts) {
     return (
-      <DebtsDisplay data={debts} />
+      <DebtsDisplay data={myDebts} />
     )
   } else {
     return (
@@ -142,7 +123,7 @@ function ToDisplayChart({ item }) {
   return (
     <>
       <h1>0</h1>
-      <SideBarChart dataDaysDue={dateDiff(item.due)} barColorOne={barColor(dateDiff(item.due))} fillColor={barBackgroundColor(dateDiff(item.due))} />
+      <SideBarChart dataIn={dateDiff(item.due)} barColorOne={barColor(dateDiff(item.due))} fillColor={barBackgroundColor(dateDiff(item.due))} label={["Days Until Due"]} sugMin={0} sugMax={30} />
       <h1>30</h1>
     </>
   );

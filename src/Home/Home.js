@@ -5,7 +5,7 @@ import Investments from "./Investments";
 import Debts from "./Debts.js"
 import "../Styles/Home.css"
 
-function Home() {
+function Home( { myStocks, myDebts, error, myFinance }) {
   return (
     <div className="Home">
         <div className='grid-display'>
@@ -13,13 +13,13 @@ function Home() {
                 <Totals />
             </div>
             <div className='grid-wrapper'>
-                <Debts />
+                <Debts myDebts={myDebts} error={error} />
             </div>
             <div className='grid-wrapper'>
                 <Banking />
             </div>
             <div className='grid-wrapper'>
-                <Investments />
+                <Investments myStocks={myStocks} error={error} myFinance={myFinance} />
             </div>
         </div>
     </div>
