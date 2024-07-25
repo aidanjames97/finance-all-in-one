@@ -1,20 +1,24 @@
-import logo from "./Pics/logo.png"
 import profile from "./Pics/user.png"
 import "./Styles/Header.css"
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import reload from "./Pics/reload.svg"
 
-function Header() {
-    const [active, setActive] = useState('Home')
+function Header({ setReload, toReload, setBlurBack, setFromWhat }) {
+    const [active, setActive] = useState('Home')  
 
   return (
     <div className='Header'>
         <div className='header-image-container'>
-            <img src={logo} alt="logo alt" />
+            <button onClick={() => setReload(!toReload)}>
+                <img alt="reload" src={reload} width='35px' height='35px' />
+            </button>
         </div>
         <HeaderButtons active={active} setActive={setActive} />
         <div className='header-profile-container'>
-            <img src={profile} alt="profile alt" />
+            <button onClick={() => {setBlurBack(true); setFromWhat('profile')}}>
+                <img src={profile} alt="profile alt" width='35px' height='35px' />
+            </button>
         </div>
     </div>
   )

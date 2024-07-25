@@ -49,13 +49,17 @@ function Info({ singleStockInfo, singleFinanceInfo, error }) {
             <h4 style={{color: textColor}}>{formatNum(singleFinanceInfo.d)}</h4>
             <span className='info-left-divider'></span>
             <h4>$ P/L Day:</h4>
-            <h3 style={{color: textColor}}>{formatNum(singleFinanceInfo.d * ((singleFinanceInfo.dp + 100) / 100))}</h3>
+            <h3 style={{color: textColor}}>{formatNum(((singleStockInfo.shares * singleFinanceInfo.c) - (singleStockInfo.shares * singleFinanceInfo.o)))}</h3>
             <h4>% P/L Day:</h4>
             <h3 style={{color: textColor}}>{formatPercent(singleFinanceInfo.dp)}</h3>
           </div>
         </div>
         <div className='info-chart'>
-          <DoubleLineChart dataIn={sampleData} lineColor={GREEN_COLOR} lineWidth='3' dataTwo={[62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62]} />
+          <DoubleLineChart 
+            dataIn={[65, 69, 80, 61, 66, 77, 40, 52, 62, 32, 68, 60]} 
+            lineColor={GREEN_COLOR} 
+            lineWidth='3' 
+            dataTwo={[62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62, 62]} />
         </div>
         <div className='info-right-body'>
           <div className='info-right-body-header'>

@@ -21,7 +21,12 @@ function App() {
   const [myFinance, setMyFinance] = useState([]);
   const [myDebts, setMyDebts] = useState([]);
   const [error, setError] = useState(null);
+  const [reload, setReload] = useState(true);
+  const [blurBack, setBlurBack] = useState(false);
+  const [fromWhat, setFromWhat] = useState(null);
+
   useEffect(() => {
+    console.log("----------\ngetting data from db and api")
     // firebase stock data
     const getFireData = async () => {
       const data = await getDocs(STOCK_COL)
@@ -65,17 +70,17 @@ function App() {
       setMyDebts(result)
     })
     .catch(error => setError(error))
-    }, [])
+    }, [reload])
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        <Header setReload={setReload} toReload={reload} setBlurBack={setBlurBack} setFromWhat={setFromWhat} />
         <Routes>
-          <Route exact path='/' element={<Home myStocks={myStocks} myDebts={myDebts} error={error} myFinance={myFinance} />} />
+          <Route exact path='/' element={<Home myStocks={myStocks} myDebts={myDebts} error={error} myFinance={myFinance} blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} />} />
           <Route exact path='/Spending' element={<Spending />} />
           <Route exact path='/Saving' element={<Saving />} />
-          <Route exact path='/Investments' element={<Investments myStocks={myStocks} error={error} myFinance={myFinance} />} />
+          <Route exact path='/Investments' element={<Investments myStocks={myStocks} error={error} myFinance={myFinance} blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} setFromWhat={setFromWhat} />}/>
         </Routes>
       </BrowserRouter>
     </div>

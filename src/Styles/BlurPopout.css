@@ -1,0 +1,24 @@
+.blur-background-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 900;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blur-popout-wrapper {
+    border: 1px solid rgba(173, 216, 230, 0.2);
+    background: #282c34;
+    border-radius: 25px;
+    width: 50%;
+    height: 75%;
+}
+.blur-popout-container {
+    margin: 5%;
+    border: 1px solid sandybrown;
+}
