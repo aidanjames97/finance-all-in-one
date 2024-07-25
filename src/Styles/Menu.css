@@ -18,6 +18,37 @@
     display: none;
 }
 
+.menu-adder {
+    width: 100%;
+    background: #282c34;
+    position:sticky;
+    bottom: 0;
+    border-top: 1px solid rgba(173, 216, 230, 0.5);
+}
+.menu-button-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(173, 216, 230, 0.05);
+}
+.menu-button-container > button {
+    width: 100%;
+    transition: ease-in .2s;
+    background: transparent;
+    border: 0;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 5px;
+}
+.menu-button-container > button:hover {
+    transition: ease-in .2s;
+    background: rgba(173, 216, 230, 0.1);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .menu-header {
     display: flex;
     font-size: 16px;

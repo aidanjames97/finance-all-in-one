@@ -119,6 +119,12 @@ function ToDisplayChart({ item }) {
         <h1>PAST DUE</h1>
       </div>
     );
+  } else if (dateDiff(item.due) === 0) {
+    return (
+      <div className='is-past-due'>
+        <h1>DUE TODAY</h1>
+      </div>
+    );
   }
   return (
     <>

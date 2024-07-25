@@ -11,8 +11,29 @@
     align-items: center;
 }
 
-.header-image-container > img, .header-profile-container > img {
-    height: 40px;
+.header-image-container > button, .header-profile-container > button {
+    height: 35px;
+    width: 35px;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header-profile-container > button:hover {
+    cursor: pointer;
+}
+.header-image-container > button:hover {
+    cursor: pointer;
+    animation: rotate 2s linear infinite;
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .header-buttons-container {

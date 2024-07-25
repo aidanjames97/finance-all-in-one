@@ -1,5 +1,5 @@
 import "../Styles/Menu.css"
-import React from 'react'
+import React, { useState } from 'react'
 import StatsRow from "./StatsRow"
 import "../Styles/Loading.css"
 
@@ -15,12 +15,15 @@ function formatPercent(num) {
     return num.toFixed(2) + '%'
 }
 
-function Menu({ myStocks, error, myFinance, overall }) {
+function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromWhat }) {
+    const [toRemove, setToRemove] = useState(false)
+    const [toAdd, setToAdd] = useState(false)
+
     if(error) {
         return (
             <div className="Menu-error">Could Not Load Data</div>
         )
-    } else if(myStocks && myFinance) {
+    } else if(myStocks && myFinance.length === myStocks.length && myFinance) {
         let total = 0;
         myStocks.map((elem) => {
           total += elem.shares * elem.buyPrice
@@ -54,16 +57,23 @@ function Menu({ myStocks, error, myFinance, overall }) {
                         <div className="menu-rows">
                             {myStocks.map((stock, index) => (
                                 <StatsRow 
+                                    stock={stock} 
+                                    finance={myFinance[index]} 
+                                    setClickedIndex={setClickIndex}
                                     key={index}
-                                    name={stock.ticker}
-                                    openPrice={myFinance[index].o}
-                                    shares={stock.shares}
-                                    price={stock.buyPrice}
-                                    buyPrice={stock.buyPrice}
-                                    dayPercent={myFinance[index].dp}
-                                    currentPrice={myFinance[index].c}
+                                    index={index}
+                                    toRemove={toRemove}
+                                    toAdd={toAdd} 
+                                    setBlurBack={setBlurBack} 
+                                    setFromWhat={setFromWhat}
                                 />
                             ))}
+                        </div>
+                    </div>
+                    <div className="menu-adder">
+                        <div className="menu-button-container">
+                            <button onClick={() => { setToAdd(!toAdd); setToRemove(false)}}>Add Shares</button>
+                            <button onClick={() => { setToRemove(!toRemove); setToAdd(false)}}>Remove Shares</button>
                         </div>
                     </div>
                 </div>
