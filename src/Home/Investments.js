@@ -18,6 +18,8 @@ function formatPercent(num) {
 // to delete, sample data
 const sampleData = [65, 59, 80, 81, 56, 55, 40, 59, 66, 88, 78, 60]
 
+// myStocks: firebase stock, error: any db or api error, 
+// myFinance: finnhub api stock data
 function Investments({ myStocks, error, myFinance }) {
   if(error) {
     return (

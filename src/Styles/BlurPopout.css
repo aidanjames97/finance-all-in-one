@@ -14,11 +14,37 @@
 .blur-popout-wrapper {
     border: 1px solid rgba(173, 216, 230, 0.2);
     background: #282c34;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
     border-radius: 25px;
     width: 50%;
     height: 75%;
 }
 .blur-popout-container {
-    margin: 5%;
-    border: 1px solid sandybrown;
+    margin: 3%;
+}
+
+.profile-popout-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.profile-popout-header > h1 {
+    margin: 0;
+}
+
+.popout-exit {
+    transition: ease-in .2s;
+    height: 35px;
+    width: 35px;
+    background: transparent;    
+    border: 1px solid rgba(173, 216, 230, 0.2);
+    border-radius: 5px;
+    color: white;
+    font-size: 20px;
+}
+.popout-exit:hover {
+    transition: ease-in .2s;
+    cursor: pointer;
+    background: rgba(173, 216, 230, 0.05);
 }

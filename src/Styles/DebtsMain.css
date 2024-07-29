@@ -1,0 +1,21 @@
+.DebtsMain {
+    width: 100%;
+    height: 100%;
+}
+
+.debts-grid-wrapper {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1%;
+}
+
+.debts-credit-left, .debts-history-centre, .debts-overall-right {
+    width: 96%;
+    height: 96%;
+    padding: 2%;
+    border: 1px solid rgba(173, 216, 230, 0.2);
+    background: rgba(173, 216, 230, 0.05);
+    border-radius: 5px;
+}

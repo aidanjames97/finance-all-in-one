@@ -6,7 +6,10 @@ import Debts from "./Debts.js"
 import "../Styles/Home.css"
 import BlurPopout from "../BlurPopout.js"
 
-function Home( { myStocks, myDebts, error, myFinance, blurBack, setBlurBack, fromWhat }) {
+// myStocks: firebase stock, myDebts: firebase debts, error: any db or api error, 
+// myFinance: finnhub api stock data, blurBack: popout blur T/F, 
+// setBlurBack: setter for blurBack, fromWhat: string what popout is from
+function Home( { myStocks, myDebts, myCredit, error, myFinance, blurBack, setBlurBack, fromWhat }) {
   return (
     <div className="Home">
         {blurBack ? 
@@ -20,7 +23,7 @@ function Home( { myStocks, myDebts, error, myFinance, blurBack, setBlurBack, fro
                 <Totals />
             </div>
             <div className='grid-wrapper'>
-                <Debts myDebts={myDebts} error={error} />
+                <Debts myDebts={myDebts} myCredit={myCredit} error={error} />
             </div>
             <div className='grid-wrapper'>
                 <Banking />

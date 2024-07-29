@@ -1,24 +1,16 @@
 import React from 'react'
+import BlurPopout from '../BlurPopout'
 
-function SavingMain() {
+function SavingMain({ blurBack, setBlurBack, fromWhat }) {
   return (
-    <div>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>Savings</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-  </div>
+    <div className='SavingMain'>
+      {blurBack ? 
+      (
+        <BlurPopout setBlurBack={setBlurBack} fromWhat={fromWhat} />
+      ) : (
+      <></>
+      )}
+    </div>
   )
 }
 

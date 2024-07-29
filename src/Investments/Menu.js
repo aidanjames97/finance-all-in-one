@@ -17,7 +17,6 @@ function formatPercent(num) {
 
 function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromWhat }) {
     const [toRemove, setToRemove] = useState(false)
-    const [toAdd, setToAdd] = useState(false)
 
     if(error) {
         return (
@@ -63,7 +62,7 @@ function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromW
                                     key={index}
                                     index={index}
                                     toRemove={toRemove}
-                                    toAdd={toAdd} 
+                                    setToRemove={setToRemove}
                                     setBlurBack={setBlurBack} 
                                     setFromWhat={setFromWhat}
                                 />
@@ -72,8 +71,8 @@ function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromW
                     </div>
                     <div className="menu-adder">
                         <div className="menu-button-container">
-                            <button onClick={() => { setToAdd(!toAdd); setToRemove(false)}}>Add Shares</button>
-                            <button onClick={() => { setToRemove(!toRemove); setToAdd(false)}}>Remove Shares</button>
+                            <button onClick={() => { setToRemove(false); setBlurBack(true); setFromWhat('addStock')}}>Add Shares</button>
+                            <button onClick={() => { setToRemove(!toRemove) }}>Remove Shares</button>
                         </div>
                     </div>
                 </div>

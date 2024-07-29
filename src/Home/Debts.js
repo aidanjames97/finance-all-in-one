@@ -5,6 +5,7 @@ import SideBarChart from '../Charts/SideBarChart';
 import "../Styles/Loading.css"
 
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const date = new Date()
 
 // formats numbers to currency
 function formatToUsd(num) {
@@ -47,14 +48,15 @@ function dateMonthDay(str) {
   return MONTHS[d.getMonth()] + ' ' + d.getDate()
 }
 
-function Debts({ myDebts, error }) {
+// myDebts: firebase debts, error: any db or api error
+function Debts({ myDebts, myCredit, error }) {
   if(error) {
     return (
       <div className='Debts-error'>Could Not Load Data</div>
     )
-  } else if(myDebts) {
+  } else if(myDebts && myCredit) {
     return (
-      <DebtsDisplay data={myDebts} />
+      <DebtsDisplay data={myDebts} myCredit={myCredit}/>
     )
   } else {
     return (
@@ -66,16 +68,26 @@ function Debts({ myDebts, error }) {
 }
 export default Debts
 
-function DebtsDisplay({ data }) {
-  let total = 0 // total debts
-  let spending = []; // array for debt amounts
-  let spendingTypes = []; // array for debt titles
+function DebtsDisplay({ data, myCredit }) {
+  let totalCredit = 0; // total due on credit card
+  const [myDebt, setMyDebt] = useState([data]);
+
+  myCredit.map((elem) => {
+    totalCredit += elem.amount
+  })
+  setMyDebt(myDebt + {amount: totalCredit, type: "Credit Card", due: date})
+
+  let total = totalCredit // total debts (starting with credit card)
+  let spending = [totalCredit]; // array for debt amounts
+  let spendingTypes = ["Credit Card"]; // array for debt titles
   // mapping to local vars
   data.map((elem) => {
     total += elem.amount
     spending.push(elem.amount)
     spendingTypes.push(elem.type)
   })
+
+  console.log()
 
   return (
     <div className='Debts'>
@@ -89,7 +101,7 @@ function DebtsDisplay({ data }) {
         </div>
       </div>
       <div className='debts-body-info'>
-        {data.map((item, index) => (
+        {myDebt.map((item, index) => (
           <div className='debts-list-item-wrapper' key={index}>
             <div className='debts-list-item'>
               <div className='debts-list-heading'>

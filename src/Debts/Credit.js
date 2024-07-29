@@ -1,0 +1,143 @@
+import React from 'react'
+import "../Styles/Loading.css"
+import "../Styles/Overall.css"
+import RadarChart from '../Charts/RadarChart'
+import SideBarChart from '../Charts/SideBarChart'
+
+const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const DATE = new Date()
+
+// formats numbers to currency
+function formatToUsd(num) {
+    return Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+}
+
+// calculates bar color for bar chart
+function barColor(days) {
+    if(days > 14) {
+      return 'rgba(0, 255, 50, 0.8)';
+    }
+    return 'rgba(255, 0, 50, 0.8)';
+}
+  
+// calculates bar fill color for bar chart
+function barBackgroundColor(days) {
+    if(days > 14) {
+      return 'rgba(0, 255, 50, 0.2)';
+    }
+    return 'rgba(255, 0, 50, 0.2)';
+}
+  
+// returns string for display from string date
+function dateMonthDay(str) {
+    let d = new Date(str * 1000);
+    return MONTHS[d.getMonth()] + ' ' + d.getDate()
+}
+
+// calcuates days from today to date given, returns how many days (int)
+function dateDiff(dateDue) {
+    const d = new Date(dateDue.seconds * 1000);
+    const today = new Date()
+  
+    const diff = d - today
+    const diffInDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  
+    if(diffInDays > 30) {
+      return 30;
+    }
+    return diffInDays;
+}
+
+function Credit({ myDebts, error }) {
+    if(error) {
+        return (
+            <div className='Credit-error'>Could Not Load Data</div>
+        )
+    } else if(myDebts) {
+        let total = 0 // total debts
+        let spending = []; // array for debt amounts
+        let spendingTypes = []; // array for debt titles
+        // mapping to local vars
+        myDebts.map((elem) => {
+        total += elem.amount
+        spending.push(elem.amount)
+        spendingTypes.push(elem.type)
+        })
+        return (
+            <div className='Credit'>
+                <div className='overall-header'>
+                    Credit Cards
+                </div>
+                <div className='overall-body-grid'>
+                    <div className='overall-body-top'>
+                        <div className='overall-chart'>
+                            <RadarChart dataSpending={spending} dataSpendingTypes={spendingTypes} />
+                        </div>
+                        <div className='overall-top'>
+                            <div className='overall-value'>
+                                <h2>Amount: </h2>
+                                <h1>{formatToUsd(total)}</h1>
+                            </div>
+                            <div className='overall-date'>
+                                <h2>Due:</h2>
+                                <h1>{MONTHS[DATE.getMonth()]} {DATE.getDate() + 2}</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='overall-info'>
+                        {myDebts.map((item, index) => (
+                        <div className='overall-list-item-wrapper' key={index}>
+                            <div className='overall-list-item'>
+                            <div className='overall-list-heading'>
+                                <h1>{item.type.length < 14 ? item.type : item.type.substr(0,11) + '...'}</h1>
+                                <h2>{formatToUsd(item.amount)}</h2>
+                            </div>
+                            <div className='overall-list-bar'>
+                                <ToDisplayChart item={item} />
+                            </div>
+                            <div className='overall-list-date'>
+                                <h2>Due:</h2>
+                                <h1>{dateMonthDay(item.due)}</h1>
+                            </div>
+                            </div>
+                            <span style={{backgroundColor:'rgba(173, 216, 230, 0.5)', width:'100%', height:'1px'}}></span>
+                        </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        )
+    } else {
+        return (
+            <div className='Credit-error'>
+              <div className='loader'></div>
+            </div>
+        )
+    }
+}
+
+export default Credit
+
+function ToDisplayChart({ item }) {
+    if(dateDiff(item.due) < 0) {
+      return (
+        <div className='is-past-due'>
+          <h1>PAST DUE</h1>
+        </div>
+      );
+    } else if (dateDiff(item.due) === 0) {
+      return (
+        <div className='is-past-due'>
+          <h1>DUE TODAY</h1>
+        </div>
+      );
+    }
+    return (
+      <>
+        <h1>0</h1>
+        <SideBarChart dataIn={dateDiff(item.due)} barColorOne={barColor(dateDiff(item.due))} fillColor={barBackgroundColor(dateDiff(item.due))} label={["Days Until Due"]} sugMin={0} sugMax={30} />
+        <h1>30</h1>
+      </>
+    );
+  }

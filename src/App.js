@@ -14,11 +14,13 @@ import axios from 'axios';
 // global constants
 const DEBTS_COL = collection(db, 'debts');
 const STOCK_COL = collection(db, 'stocks');
+const CREDIT_COL = collection(db, 'credit');
 
 function App() {
   // get stock data
   const [myStocks, setMyStocks] = useState([]);
   const [myFinance, setMyFinance] = useState([]);
+  const [myCredit, setMyCredit] = useState([]);
   const [myDebts, setMyDebts] = useState([]);
   const [error, setError] = useState(null);
   const [reload, setReload] = useState(true);
@@ -26,7 +28,6 @@ function App() {
   const [fromWhat, setFromWhat] = useState(null);
 
   useEffect(() => {
-    console.log("----------\ngetting data from db and api")
     // firebase stock data
     const getFireData = async () => {
       const data = await getDocs(STOCK_COL)
@@ -35,6 +36,11 @@ function App() {
     // firebase debts data
     const getFireDebt = async() => {
       const data = await getDocs(DEBTS_COL)
+      return(data.docs.map((elem) => ({ ...elem.data(), id: elem.id})))
+    }
+    // firebase credit data
+    const getFireCreditData = async () => {
+      const data = await getDocs(CREDIT_COL)
       return(data.docs.map((elem) => ({ ...elem.data(), id: elem.id})))
     }
 
@@ -70,6 +76,11 @@ function App() {
       setMyDebts(result)
     })
     .catch(error => setError(error))
+    getFireCreditData()
+    .then((result) => {
+      setMyCredit(result)
+    })
+    .catch(error => setError(error))
     }, [reload])
 
   return (
@@ -77,9 +88,9 @@ function App() {
       <BrowserRouter>
         <Header setReload={setReload} toReload={reload} setBlurBack={setBlurBack} setFromWhat={setFromWhat} />
         <Routes>
-          <Route exact path='/' element={<Home myStocks={myStocks} myDebts={myDebts} error={error} myFinance={myFinance} blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} />} />
-          <Route exact path='/Spending' element={<Spending />} />
-          <Route exact path='/Saving' element={<Saving />} />
+          <Route exact path='/' element={<Home myStocks={myStocks} myDebts={myDebts} myCredit={myCredit} error={error} myFinance={myFinance} blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} />} />
+          <Route exact path='/Spending' element={<Spending blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} myDebts={myDebts} myCredit={myCredit} error={error} />} />
+          <Route exact path='/Saving' element={<Saving blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} />} />
           <Route exact path='/Investments' element={<Investments myStocks={myStocks} error={error} myFinance={myFinance} blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} setFromWhat={setFromWhat} />}/>
         </Routes>
       </BrowserRouter>
