@@ -17,7 +17,7 @@ function formatPercent(num) {
 // to delete, sample data
 const sampleData = [65, 59, 80, 81, 56, 55, 40, 59, 66, 88, 78, 60]
 
-function StatsRow({ stock, finance, setClickedIndex, index, toRemove, toAdd, setBlurBack, setFromWhat }) {
+function StatsRow({ stock, finance, setClickedIndex, index, toRemove, setToRemove }) {
   let textColor = GREEN_COLOR;
   if(finance.dp < 0) {
     textColor = RED_COLOR
@@ -46,13 +46,7 @@ function StatsRow({ stock, finance, setClickedIndex, index, toRemove, toAdd, set
         </button>
         {toRemove ? 
         (
-          <button onClick={() => alert(`delete row at index: ${index}, which is ticker: ${stock.ticker}`)} className="stats-list-remove-button">X</button>
-        ) : (
-          <></>
-        )}
-        {toAdd ? 
-        (
-          <button onClick={() => {setBlurBack(true); setFromWhat('addStock')}} className="stats-list-add-button">+</button>
+          <button onClick={() => { alert(`delete row at index: ${index}, which is ticker: ${stock.ticker}`); setToRemove(false) }} className="stats-list-remove-button">X</button>
         ) : (
           <></>
         )}
