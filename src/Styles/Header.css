@@ -19,6 +19,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    outline: none;
 }
 .header-profile-container > button:hover {
     cursor: pointer;

@@ -62,26 +62,41 @@
 
 .overall-list-item-wrapper {
     width: 100%;
-    margin-bottom: 5px;
+    height: 100%;
     display: flex;
-    flex-direction: column;
+    align-items: center;
 }
 
 .overall-info {
-    height: 47.5vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding: 1%;
+    height: 49vh;
     border: 1px solid rgba(173, 216, 230, 0.2);
     background: rgba(173, 216, 230, 0.05);
     border-radius: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
-.overall-info::-webkit-scrollbar {
+.overall-row {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 1%;
+    width: 98%;
+}
+.overall-row::-webkit-scrollbar {
     display: none;
+}
+
+.Overall-Row-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .overall-list-item {
     height: 50px;
+    width: 96%;
+    margin: 0 2%;
     align-items: center;
     justify-content: space-between;
     display: grid;
@@ -143,4 +158,36 @@
     margin: 0;
     font-size: 22px;
     font-weight: 700;
+}
+
+.overall-adder {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background: #282c34;
+    border-top: 1px solid rgba(173, 216, 230, 0.5);
+    border-radius: 0 0 5px 5px;
+}
+.overall-button-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(173, 216, 230, 0.05);
+}
+.overall-button-container > button {
+    width: 100%;
+    transition: ease-in .2s;
+    background: transparent;
+    border: 0;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 5px;
+}
+.overall-button-container > button:hover {
+    transition: ease-in .2s;
+    background: rgba(173, 216, 230, 0.1);
+    border-radius: 5px;
+    cursor: pointer;
 }

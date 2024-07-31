@@ -15,7 +15,7 @@ function formatPercent(num) {
     return num.toFixed(2) + '%'
 }
 
-function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromWhat }) {
+function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromWhat, setReload, reload, clickIndex }) {
     const [toRemove, setToRemove] = useState(false)
 
     if(error) {
@@ -30,7 +30,7 @@ function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromW
 
         let dayDollar = 0;
         for(let i = 0; i < myStocks.length; i++) {
-            dayDollar += ((myStocks[i].shares * myFinance[i].c) - (myStocks[i].shares * myFinance[i].pc))
+            dayDollar += (myStocks[i].shares * myFinance[i].d)
         }
         const dayPercent = (dayDollar / total) * 100
 
@@ -65,6 +65,9 @@ function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromW
                                     setToRemove={setToRemove}
                                     setBlurBack={setBlurBack} 
                                     setFromWhat={setFromWhat}
+                                    setReload={setReload}
+                                    reload={reload}
+                                    clickIndex={clickIndex}
                                 />
                             ))}
                         </div>

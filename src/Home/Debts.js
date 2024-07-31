@@ -49,14 +49,25 @@ function dateMonthDay(str) {
 }
 
 // myDebts: firebase debts, error: any db or api error
-function Debts({ myDebts, myCredit, error }) {
+function Debts({ myDebts, error, setBlurBack, setFromWhat }) {
   if(error) {
     return (
       <div className='Debts-error'>Could Not Load Data</div>
     )
-  } else if(myDebts && myCredit) {
+  } else if(myDebts) {
+    if(myDebts.length === 0) {
+      return (
+        <div className='no-info'>
+          <h1>Add Your Info!</h1>
+          <button 
+            className='no-info-button'
+            onClick={() => { setBlurBack(true); setFromWhat('debts') }}
+          >Add Expense</button>
+        </div>
+      );
+    }
     return (
-      <DebtsDisplay data={myDebts} myCredit={myCredit}/>
+      <DebtsDisplay data={myDebts}/>
     )
   } else {
     return (
@@ -68,26 +79,16 @@ function Debts({ myDebts, myCredit, error }) {
 }
 export default Debts
 
-function DebtsDisplay({ data, myCredit }) {
-  let totalCredit = 0; // total due on credit card
-  const [myDebt, setMyDebt] = useState([data]);
-
-  myCredit.map((elem) => {
-    totalCredit += elem.amount
-  })
-  setMyDebt(myDebt + {amount: totalCredit, type: "Credit Card", due: date})
-
-  let total = totalCredit // total debts (starting with credit card)
-  let spending = [totalCredit]; // array for debt amounts
-  let spendingTypes = ["Credit Card"]; // array for debt titles
+function DebtsDisplay({ data }) {
+  let total = 0 // total debts (starting with credit card)
+  let spending = []; // array for debt amounts
+  let spendingTypes = []; // array for debt titles
   // mapping to local vars
   data.map((elem) => {
     total += elem.amount
     spending.push(elem.amount)
     spendingTypes.push(elem.type)
   })
-
-  console.log()
 
   return (
     <div className='Debts'>
@@ -101,7 +102,7 @@ function DebtsDisplay({ data, myCredit }) {
         </div>
       </div>
       <div className='debts-body-info'>
-        {myDebt.map((item, index) => (
+        {data.map((item, index) => (
           <div className='debts-list-item-wrapper' key={index}>
             <div className='debts-list-item'>
               <div className='debts-list-heading'>
