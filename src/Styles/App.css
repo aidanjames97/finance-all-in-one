@@ -1,6 +1,8 @@
-html, body {
+html, body, button {
   background-color: #282c34;
   color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .App {
@@ -14,4 +16,31 @@ html, body {
 .header-wrapper {
   width: 100%;
   height: 100%;
+}
+
+/* for when component has no info to display */
+.no-info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.no-info > h1 {
+  margin: 5px;
+}
+.no-info-button {
+  transition: ease-in .2s;
+  background: transparent;
+  padding: 5px 10px;
+  border: 1px solid rgba(173, 216, 230, 0.2);
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.no-info-button:hover {
+  transition: ease-in .2s;
+  background: rgba(173, 216, 230, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
 }

@@ -2,11 +2,11 @@ import React from 'react'
 import 'chart.js/auto'
 import { Line } from 'react-chartjs-2'
 
-const LineChart = ({ dataIn, lineColor, scaleDisplay, lineWidth }) => {
+const LineChart = ({ dataIn, labelIn, lineColor, scaleDisplay, lineWidth }) => {
 
     const data = {
         type: 'line',
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: labelIn,
         datasets: [
             {
                 label: "Total Value",
@@ -34,7 +34,7 @@ const LineChart = ({ dataIn, lineColor, scaleDisplay, lineWidth }) => {
                 display : scaleDisplay,
             },
             x: {
-                display: scaleDisplay,
+                display: false,
             }
         },
     }

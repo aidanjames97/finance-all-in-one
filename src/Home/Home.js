@@ -9,12 +9,17 @@ import BlurPopout from "../BlurPopout.js"
 // myStocks: firebase stock, myDebts: firebase debts, error: any db or api error, 
 // myFinance: finnhub api stock data, blurBack: popout blur T/F, 
 // setBlurBack: setter for blurBack, fromWhat: string what popout is from
-function Home( { myStocks, myDebts, myCredit, error, myFinance, blurBack, setBlurBack, fromWhat }) {
+function Home( { myStocks, myDebts, error, myFinance, blurBack, setBlurBack, fromWhat, setFromWhat, setReload, reload }) {
   return (
     <div className="Home">
         {blurBack ? 
         (
-            <BlurPopout setBlurBack={setBlurBack} fromWhat={fromWhat} />
+            <BlurPopout 
+                setBlurBack={setBlurBack} 
+                fromWhat={fromWhat} 
+                setReload={setReload} 
+                reload={reload} 
+            />
         ) : (
         <></>
         )}
@@ -23,13 +28,24 @@ function Home( { myStocks, myDebts, myCredit, error, myFinance, blurBack, setBlu
                 <Totals />
             </div>
             <div className='grid-wrapper'>
-                <Debts myDebts={myDebts} myCredit={myCredit} error={error} />
+                <Debts 
+                    myDebts={myDebts} 
+                    error={error} 
+                    setBlurBack={setBlurBack} 
+                    setFromWhat={setFromWhat} 
+                />
             </div>
             <div className='grid-wrapper'>
                 <Banking />
             </div>
             <div className='grid-wrapper'>
-                <Investments myStocks={myStocks} error={error} myFinance={myFinance} />
+                <Investments 
+                    myStocks={myStocks} 
+                    error={error} 
+                    myFinance={myFinance} 
+                    setBlurBack={setBlurBack} 
+                    setFromWhat={setFromWhat} 
+                />
             </div>
         </div>
     </div>

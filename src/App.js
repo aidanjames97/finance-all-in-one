@@ -65,20 +65,29 @@ function App() {
     // getting data for stocks
     getFireData()
     .then((result) => {
-      setMyStocks(result)
+      fetchData(result.slice(1)); // remove sample entry
+      
+      setMyStocks(result.slice(1)) // removing sample entry
       // after we have the stocks from db, get finance data from api
-      fetchData(result);
     })
     .catch(error => setError(error))
     // getting data from debts
     getFireDebt()
-    .then((result) => {
-      setMyDebts(result)
-    })
-    .catch(error => setError(error))
-    getFireCreditData()
-    .then((result) => {
-      setMyCredit(result)
+    .then((resultDebts) => {
+      getFireCreditData()
+        .then((result) => {
+          setMyCredit(result.slice(1)); // removing sample entry
+          let tmp = resultDebts.slice(1); // removing sample entry
+          const tmpCredit = result;
+          if(tmpCredit.length > 1) {
+            let totalCredit = 0; // total due on credit card
+            tmpCredit.map((elem) => {
+              totalCredit += elem.amount
+            })
+            tmp.push({amount: totalCredit, type: "Credit Card", due: new Date()})
+          }
+          setMyDebts(tmp)
+        })
     })
     .catch(error => setError(error))
     }, [reload])
@@ -88,10 +97,53 @@ function App() {
       <BrowserRouter>
         <Header setReload={setReload} toReload={reload} setBlurBack={setBlurBack} setFromWhat={setFromWhat} />
         <Routes>
-          <Route exact path='/' element={<Home myStocks={myStocks} myDebts={myDebts} myCredit={myCredit} error={error} myFinance={myFinance} blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} />} />
-          <Route exact path='/Spending' element={<Spending blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} myDebts={myDebts} myCredit={myCredit} error={error} />} />
-          <Route exact path='/Saving' element={<Saving blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} />} />
-          <Route exact path='/Investments' element={<Investments myStocks={myStocks} error={error} myFinance={myFinance} blurBack={blurBack} setBlurBack={setBlurBack} fromWhat={fromWhat} setFromWhat={setFromWhat} />}/>
+          <Route exact path='/' element={
+            <Home 
+              myStocks={myStocks} 
+              myDebts={myDebts} 
+              error={error} 
+              myFinance={myFinance} 
+              blurBack={blurBack} 
+              setBlurBack={setBlurBack} 
+              fromWhat={fromWhat} 
+              setFromWhat={setFromWhat} 
+              setReload={setReload} 
+              reload={reload} 
+            />} 
+          />
+          <Route exact path='/Spending' element={
+            <Spending 
+              blurBack={blurBack} 
+              setBlurBack={setBlurBack}
+              setFromWhat={setFromWhat}
+              fromWhat={fromWhat} 
+              myDebts={myDebts} 
+              error={error} 
+              setReload={setReload} 
+              reload={reload}
+              myCredit={myCredit} 
+            />} 
+          />
+          <Route exact path='/Saving' element={
+            <Saving 
+              blurBack={blurBack} 
+              setBlurBack={setBlurBack} 
+              fromWhat={fromWhat} 
+            />} 
+          />
+          <Route exact path='/Investments' element={
+            <Investments 
+              myStocks={myStocks} 
+              error={error} 
+              myFinance={myFinance} 
+              blurBack={blurBack} 
+              setBlurBack={setBlurBack} 
+              fromWhat={fromWhat} 
+              setFromWhat={setFromWhat} 
+              setReload={setReload} 
+              reload={reload} 
+            />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

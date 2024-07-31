@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import "../Styles/Investments.css";
 import LineChart from "../Charts/LineChart";
 import "../Styles/Loading.css"
@@ -16,16 +16,39 @@ function formatPercent(num) {
 }
 
 // to delete, sample data
-const sampleData = [65, 59, 80, 81, 56, 55, 40, 59, 66, 88, 78, 60]
+let data = [];
+let l = [];
+let value = 10;
+for(let i = 0; i < 365; i++) {
+  let date = new Date();
+  date.setHours(0,0,0,0)
+  date.setDate(i);
+  value += Math.round((Math.random() < 0.5 ? 1 : -0.7) * Math.random() * 10);
+  data.push(value)
+  l.push(date)
+}
+const sampleData = data;
+const sampleLabel = l;
 
 // myStocks: firebase stock, error: any db or api error, 
 // myFinance: finnhub api stock data
-function Investments({ myStocks, error, myFinance }) {
+function Investments({ myStocks, error, myFinance, setBlurBack, setFromWhat }) {
   if(error) {
     return (
-      <div className='Debts-error'>Could Not Load Data</div>
+      <div className='Investments-error'>Could Not Load Data</div>
     )
-  } else if (myStocks && myFinance.length == myStocks.length) {
+  } else if (myStocks && myStocks && myFinance.length == myStocks.length) {
+    if(myStocks.length === 0) {
+      return (
+        <div className='no-info'>
+          <h1>Add Your Holdings!</h1>
+          <button 
+            className='no-info-button'
+            onClick={() => {setBlurBack(true); setFromWhat('stock')}}
+          >Add Holdings</button>
+        </div>
+      );
+    }
     return (
       <DataDisplay data={myStocks} myFinance={myFinance} />
     )
@@ -55,7 +78,7 @@ function DataDisplay({ data, myFinance }) {
 
   let dayDollar = 0;
   for(let i = 0; i < data.length; i++) {
-    dayDollar += ((data[i].shares * myFinance[i].c) - (data[i].shares * myFinance[i].pc))
+    dayDollar += (data[i].shares * myFinance[i].d)
   }
   let textColor = GREEN_COLOR
   if(dayDollar < 0) {
@@ -75,7 +98,13 @@ function DataDisplay({ data, myFinance }) {
           </div>
         </div>
         <div className='investments-graph'>
-          <LineChart dataIn={sampleData} lineColor={GREEN_COLOR} lineWidth='3'/>
+          <LineChart 
+            dataIn={sampleData}
+            labelIn={sampleLabel}
+            lineColor={GREEN_COLOR} 
+            scaleDisplay={true} 
+            lineWidth='2'
+          />
         </div>
       </div>
 
@@ -85,14 +114,20 @@ function DataDisplay({ data, myFinance }) {
           <div className='investments-list-item'>
             <div className='investments-list-item-header'>
               <h1>{item.ticker}</h1>
-              <h3>${item.buyPrice}</h3>
+              <h3>{formatNum(item.buyPrice)}</h3>
             </div>
             <div className='investments-list-item-graph'>
-              <LineChart dataIn={sampleData} lineColor={GREEN_COLOR} scaleDisplay={false} lineWidth='2' />
+              <LineChart 
+                dataIn={sampleData}
+                labelIn={sampleLabel}
+                lineColor={GREEN_COLOR} 
+                scaleDisplay={false} 
+                lineWidth='1' 
+              />
             </div>
             <div className='investments-list-item-info'>
               <h1>{formatNum(item.shares * myFinance[index].c)}</h1>
-              <h2 style={{color: colorArr[index]}}>{formatNum(((item.shares * myFinance[index].c) - (item.shares * myFinance[index].o)))}</h2>
+              <h2 style={{color: colorArr[index]}}>{formatNum((myFinance[index].d * item.shares))}</h2>
               <h2 style={{color: colorArr[index]}} >{formatPercent(myFinance[index].dp)}</h2>
             </div>
           </div>

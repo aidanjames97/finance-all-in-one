@@ -42,7 +42,12 @@ function Banking() {
       </div>
       <div className='banking-chart-wrapper'>
         <BarChart dataIncome={sampleData} dataExpenses={sampleDataExp} barColorOne={'rgba(0, 255, 255, 1)'} barColorTwo={'rgba(255, 255, 0, 1)'} />
-        <LineChart dataIn={sampleData} lineColor={'rgba(0, 255, 80, 1)'} />
+        <LineChart 
+          dataIn={sampleData}
+          labelIn={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']}
+          lineColor={'rgba(0, 255, 80, 1)'} 
+          lineWidth={3}
+        />
       </div>
       <div className='banking-legend-wrapper'>
         <div className='banking-legend-left'>

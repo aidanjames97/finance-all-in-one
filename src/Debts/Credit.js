@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "../Styles/Loading.css"
 import "../Styles/Overall.css"
 import RadarChart from '../Charts/RadarChart'
 import SideBarChart from '../Charts/SideBarChart'
+import { deleteDoc, doc } from 'firebase/firestore'
+import { db } from '../API/Firebase'
 
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 const DATE = new Date()
@@ -48,20 +50,33 @@ function dateDiff(dateDue) {
     return diffInDays;
 }
 
-function Credit({ myDebts, error }) {
+function Credit({ myCredit, error, setBlurBack, setFromWhat, setReload, reload }) {
+    const [toRemove, setToRemove] = useState(false)
+
     if(error) {
         return (
             <div className='Credit-error'>Could Not Load Data</div>
         )
-    } else if(myDebts) {
+    } else if(myCredit) {
+        if(myCredit.length === 0) {
+            return (
+                <div className='no-info'>
+                    <h1>Add Your Purchases!</h1>
+                    <button 
+                    className='no-info-button'
+                    onClick={() => { setBlurBack(true); setFromWhat('credit') }}
+                >Add Purchase</button>
+                </div>
+            );
+        }
         let total = 0 // total debts
         let spending = []; // array for debt amounts
         let spendingTypes = []; // array for debt titles
         // mapping to local vars
-        myDebts.map((elem) => {
-        total += elem.amount
-        spending.push(elem.amount)
-        spendingTypes.push(elem.type)
+        myCredit.map((elem) => {
+            total += elem.amount
+            spending.push(elem.amount)
+            spendingTypes.push(elem.type)
         })
         return (
             <div className='Credit'>
@@ -86,24 +101,25 @@ function Credit({ myDebts, error }) {
                     </div>
 
                     <div className='overall-info'>
-                        {myDebts.map((item, index) => (
-                        <div className='overall-list-item-wrapper' key={index}>
-                            <div className='overall-list-item'>
-                            <div className='overall-list-heading'>
-                                <h1>{item.type.length < 14 ? item.type : item.type.substr(0,11) + '...'}</h1>
-                                <h2>{formatToUsd(item.amount)}</h2>
-                            </div>
-                            <div className='overall-list-bar'>
-                                <ToDisplayChart item={item} />
-                            </div>
-                            <div className='overall-list-date'>
-                                <h2>Due:</h2>
-                                <h1>{dateMonthDay(item.due)}</h1>
-                            </div>
-                            </div>
-                            <span style={{backgroundColor:'rgba(173, 216, 230, 0.5)', width:'100%', height:'1px'}}></span>
+                        <div className='overall-row'>
+                            {myCredit.map((item, index) => (
+                                <CreditRow 
+                                    item={item}
+                                    index={index}
+                                    toRemove={toRemove}
+                                    setToRemove={setToRemove}
+                                    setReload={setReload}
+                                    reload={reload}
+                                    key={index}
+                                />
+                            ))}
                         </div>
-                        ))}
+                        <div className="overall-adder">
+                            <div className="overall-button-container">
+                                <button onClick={() => { setToRemove(false); setBlurBack(true); setFromWhat('credit')}}>Add Purchase</button>
+                                <button onClick={() => { setToRemove(!toRemove) }}>Remove Purchase</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -140,4 +156,59 @@ function ToDisplayChart({ item }) {
         <h1>30</h1>
       </>
     );
-  }
+}
+
+function CreditRow({ item, index, toRemove, setToRemove, setReload, reload }) {
+    const [loading, setLoading] = useState(false)
+
+    async function del(id) {
+        await deleteDoc(doc(db, 'credit', id))
+    }
+
+    function removePurchase(id) {
+        del(id)
+        .then(() => {
+            setLoading(false)
+            setReload(!reload)
+        })
+    }
+
+    if(loading) {
+        return (
+            <div className="Investments-error">
+            <div className="loader"></div>
+          </div>   
+        )
+    }
+    return (
+        <div className='Overall-Row-container' key={index}>
+            <div className='overall-list-item-wrapper'>
+                <div className='overall-list-item'>
+                <div className='overall-list-heading'>
+                    <h1>{item.type.length < 14 ? item.type : item.type.substr(0,11) + '...'}</h1>
+                    <h2>{formatToUsd(item.amount)}</h2>
+                </div>
+                <div className='overall-list-bar'>
+                    <ToDisplayChart item={item} />
+                </div>
+                <div className='overall-list-date'>
+                    <h2>Due:</h2>
+                    <h1>{dateMonthDay(item.due)}</h1>
+                </div>
+                {toRemove ? 
+                    (
+                    <button onClick={() => {
+                        setLoading(true)
+                        setToRemove(false);
+                        removePurchase(item.id)
+                    }} className="stats-list-remove-button"
+                    >X</button>
+                    ) : (
+                    <></>
+                )}
+                </div>
+            </div>
+            <span style={{backgroundColor:'rgba(173, 216, 230, 0.5)', width:'100%', height:'1px'}}></span>
+        </div>
+    );
+}
