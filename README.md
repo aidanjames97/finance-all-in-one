@@ -1,10 +1,16 @@
-This layout includes placeholder charts and made up data. Stock data is calculated from real-time data from 
-Finnhuib API. Debts and stock info is pulled from Firebase.
+This layout includes placeholder charts and made up data. Stock data is calculated from real-time data from Finnhuib API. Debts,stock, and credit card info is pulled from Firebase. Charts are for the most part placeholders as my API requires a payed subscription to access that data.
 
 # Home Layout
-<img width="1470" alt="Screenshot 2024-07-24 at 2 35 58 PM" src="https://github.com/user-attachments/assets/f1d15174-f88a-471a-8f78-775a5fbb4a49">
+<img width="1469" alt="Screenshot 2024-07-31 at 11 36 25 AM" src="https://github.com/user-attachments/assets/38766794-07ee-4e77-b190-1ff321d069b4">
 
 # Investments Layout
-<img width="736" alt="Screenshot 2024-07-24 at 2 35 42 PM" src="https://github.com/user-attachments/assets/1cd50bbd-b82f-4df6-a018-633449ede64f">
+<img width="1468" alt="Screenshot 2024-07-31 at 11 36 07 AM" src="https://github.com/user-attachments/assets/48bb986b-43e4-4e8c-bd55-d11eea3796de">
 
-(menus are scrollable)
+# Spending Layout
+<img width="1466" alt="Screenshot 2024-07-31 at 11 34 20 AM" src="https://github.com/user-attachments/assets/27d94181-4f2f-4ea7-a443-62dcf959f357">
+
+# Popout Layout
+(All database communication in interacted with through a popout simmilar to this)
+<img width="1468" alt="Screenshot 2024-07-31 at 11 38 08 AM" src="https://github.com/user-attachments/assets/5c179458-1a7d-409e-9f79-75a6e528cbf5">
+
+(menus are all scrollable)
