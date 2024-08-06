@@ -19,34 +19,30 @@ function DebtsMain({ blurBack, setBlurBack, setFromWhat, fromWhat, myDebts, erro
         ) : (
         <></>
         )}
-        <div className='debts-grid-wrapper'>
-          <div className='debts-credit-left'>
-            <Credit 
-              myCredit={myCredit} 
-              error={error}
-              setBlurBack={setBlurBack}
-              setFromWhat={setFromWhat}
-              setReload={setReload}
-              reload={reload}
-          />
-          </div>
-          <div className='debts-history-centre'>
-            <History 
-              myDebts={myDebts} 
-              error={error} 
-            />
-          </div>
-          <div className='debts-overall-right'>
-            <Overall 
-              myDebts={myDebts} 
-              error={error} 
-              setBlurBack={setBlurBack}
-              setFromWhat={setFromWhat}
-              setReload={setReload}
-              reload={reload}
-            />
-          </div>
-        </div>
+        <Credit 
+          myCredit={myCredit} 
+          error={error}
+          setBlurBack={setBlurBack}
+          setFromWhat={setFromWhat}
+          setReload={setReload}
+          reload={reload}
+        />
+        <History 
+          myDebts={myDebts} 
+          error={error} 
+          setBlurBack={setBlurBack}
+          setFromWhat={setFromWhat}
+          setReload={setReload}
+          reload={reload}
+        />
+        <Overall 
+          myDebts={myDebts} 
+          error={error} 
+          setBlurBack={setBlurBack}
+          setFromWhat={setFromWhat}
+          setReload={setReload}
+          reload={reload}
+        />
     </div>
   )
 }
