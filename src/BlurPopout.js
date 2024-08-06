@@ -1,24 +1,44 @@
 import React, { useState } from 'react'
 import "./Styles/BlurPopout.css"
-import { db } from "./API/Firebase"
+import { db, auth } from "./API/Firebase"
 import { collection, doc, setDoc } from "firebase/firestore"
 import { key } from './API/api';
 import axios from 'axios';
 
-function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, clickIndex }) {
+function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, clickIndex, user, setUser }) {
   return (
     <div className='blur-background-wrapper'>
         <div className='blur-popout-wrapper'>
           <div className='blur-popout-container'>
             {fromWhat === 'profile' ? 
             (
-              <ProfilePopout setBlurBack={setBlurBack} />
+              <ProfilePopout 
+                setBlurBack={setBlurBack}
+                setReload={setReload}
+                reload={reload}
+                user={user}
+                setUser={setUser}
+              />
             ) : fromWhat === 'debts' ? (
-              <AddExpensePopout setBlurBack={setBlurBack} setReload={setReload} reload={reload} />
+              <AddExpensePopout 
+                setBlurBack={setBlurBack} 
+                setReload={setReload} 
+                reload={reload} 
+              />
             ) : fromWhat === 'credit' ? (
-              <AddPurchasePopout setBlurBack={setBlurBack} setReload={setReload} reload={reload} />
+              <AddPurchasePopout 
+                setBlurBack={setBlurBack} 
+                setReload={setReload} 
+                reload={reload} 
+              />
             ) : (
-              <AddStockPopout setBlurBack={setBlurBack} setReload={setReload} reload={reload} setClickIndex={setClickIndex} clickIndex={clickIndex} />
+              <AddStockPopout 
+                setBlurBack={setBlurBack} 
+                setReload={setReload} 
+                reload={reload} 
+                setClickIndex={setClickIndex} 
+                clickIndex={clickIndex} 
+              />
             )}
           </div>
         </div>
@@ -28,12 +48,73 @@ function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, c
 
 export default BlurPopout
 
-function ProfilePopout({ setBlurBack }) {
+function ProfilePopout({ setBlurBack, setReload, reload, user, setUser }) {
+  // state vars from input fields
+  const [loading, setLoading] = useState(false)
+  const [spedingGoal, setSpendingGoal] = useState('')
+
+  const displayNameElems = user.displayName.replace(")", '').split(" (")
+
+  function checkValid() {
+    // check for number
+    const numVal = parseFloat(spedingGoal);
+    if(isNaN(numVal)) {
+      // invalid number
+      alert(`Please entre a valid number.\nYou entred: ${spedingGoal}.`)
+      setSpendingGoal('')
+      setLoading(false)
+      return;
+    }
+
+    setBlurBack(false)
+    setReload(!reload)
+    setLoading(false)
+  }
+
+  if(loading) {
+    return (
+      <div className='Investments-error'>
+        <div className='loader'></div>
+      </div>
+    ); 
+  }
   return (
     <div className='Popout'>
       <div className='popout-header'>
-        <h1>Profile</h1>
+        <h1>{displayNameElems[0]}'s Profile</h1>
         <button className='popout-exit' onClick={() => setBlurBack(false)}>X</button>
+      </div>
+      <div className='popout-body'>
+        <div className='body-row'>
+          <img style={{borderRadius: '50px', border: '2px solid'}} src={user.photoURL} alt='user-profile-pic' />
+        </div>
+        <div className='body-row'>
+          <h2>Username:</h2>
+          <h3>{displayNameElems[1]}</h3>
+        </div>
+        <div className='body-row'>
+          <h2>Email:</h2>
+          <h3>{user.email}</h3>
+        </div>
+        <div className='body-row'>
+          {/* for history spending goal */}
+          <h2>Spending Goal:</h2>
+          <input 
+            type='text'
+            value={spedingGoal}
+            onChange={(e) => setSpendingGoal(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className='popout-bottom'>
+      <button 
+        className='popout-done'
+        onClick={() => { setLoading(true); checkValid() }}
+      >Done</button>
+      <button
+        className='popout-done'
+        onClick={() => auth.signOut().then(() => setUser(null))}
+      >Sign Out</button>
       </div>
     </div>
   )
@@ -218,12 +299,14 @@ function AddExpensePopout({ setBlurBack, setReload, reload }) {
       // invalid string
       alert(`Please entre a valid type, (must be word(s)).\nYou entred: ${type}.`)
       setType('')
+      setLoading(false)
       return;
     }
     if(type.length >= 40) {
       // invalid string
       alert(`Please entre a valid type, (must be less then 40 characters).\nYours was: ${type.length}.`)
       setType('')
+      setLoading(false)
       return;
     }
     // check for number
@@ -232,6 +315,7 @@ function AddExpensePopout({ setBlurBack, setReload, reload }) {
       // invalid number
       alert(`Please entre a valid number.\nYou entred: ${amount}.`)
       setAmount('')
+      setLoading(false)
       return;
     }
     // check for date
@@ -240,6 +324,7 @@ function AddExpensePopout({ setBlurBack, setReload, reload }) {
       // invalid date
       alert(`Please entre a valid date`)
       setDue('')
+      setLoading(false)
       return;
     }
 
@@ -325,12 +410,14 @@ function AddPurchasePopout({ setBlurBack, setReload ,reload }) {
       // invalid string
       alert(`Please entre a valid type, (must be word(s)).\nYou entred: ${type}.`)
       setType('')
+      setLoading(false)
       return;
     }
     if(type.length >= 40) {
       // invalid string
       alert(`Please entre a valid type, (must be less then 40 characters).\nYours was: ${type.length}.`)
       setType('')
+      setLoading(false)
       return;
     }
     // check for number
@@ -347,6 +434,7 @@ function AddPurchasePopout({ setBlurBack, setReload ,reload }) {
       // invalid date
       alert(`Please entre a valid date`)
       setDue('')
+      setLoading(false)
       return;
     }
 

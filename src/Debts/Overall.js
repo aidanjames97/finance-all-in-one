@@ -81,14 +81,16 @@ function Overall({ myDebts, error, setBlurBack, setFromWhat, setReload, reload }
 
         return (
             <div className='Overall'>
+                <div className='overall-wrapper'>
                 <div className='overall-header'>
                     Overall Spending
                 </div>
                 <div className='overall-body-grid'>
                     <div className='overall-body-top'>
-                        <div className='overall-chart'>
-                            <RadarChart dataSpending={spending} dataSpendingTypes={spendingTypes} />
-                        </div>
+                        <RadarChart 
+                            dataSpending={spending} 
+                            dataSpendingTypes={spendingTypes} 
+                        />
                         <div className='overall-top'>
                             <div className='overall-value'>
                                 <h2>Amount: </h2>
@@ -122,6 +124,7 @@ function Overall({ myDebts, error, setBlurBack, setFromWhat, setReload, reload }
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         )
@@ -211,4 +214,4 @@ function ToDisplayChart({ item }) {
         <h1>30</h1>
       </>
     );
-  }
+}

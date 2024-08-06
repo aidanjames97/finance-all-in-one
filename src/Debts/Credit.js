@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "../Styles/Loading.css"
-import "../Styles/Overall.css"
+import "../Styles/Credit.css"
 import RadarChart from '../Charts/RadarChart'
 import SideBarChart from '../Charts/SideBarChart'
 import { deleteDoc, doc } from 'firebase/firestore'
@@ -80,28 +80,30 @@ function Credit({ myCredit, error, setBlurBack, setFromWhat, setReload, reload }
         })
         return (
             <div className='Credit'>
-                <div className='overall-header'>
+                <div className='credit-wrapper'>
+                <div className='credit-header'>
                     Credit Cards
                 </div>
-                <div className='overall-body-grid'>
-                    <div className='overall-body-top'>
-                        <div className='overall-chart'>
-                            <RadarChart dataSpending={spending} dataSpendingTypes={spendingTypes} />
-                        </div>
-                        <div className='overall-top'>
-                            <div className='overall-value'>
+                <div className='credit-body-grid'>
+                    <div className='credit-body-top'>
+                        <RadarChart 
+                            dataSpending={spending} 
+                            dataSpendingTypes={spendingTypes} 
+                        />
+                        <div className='credit-top'>
+                            <div className='credit-value'>
                                 <h2>Amount: </h2>
                                 <h1>{formatToUsd(total)}</h1>
                             </div>
-                            <div className='overall-date'>
+                            <div className='credit-date'>
                                 <h2>Due:</h2>
                                 <h1>{MONTHS[DATE.getMonth()]} {DATE.getDate() + 2}</h1>
                             </div>
                         </div>
                     </div>
 
-                    <div className='overall-info'>
-                        <div className='overall-row'>
+                    <div className='credit-info'>
+                        <div className='credit-row'>
                             {myCredit.map((item, index) => (
                                 <CreditRow 
                                     item={item}
@@ -114,13 +116,14 @@ function Credit({ myCredit, error, setBlurBack, setFromWhat, setReload, reload }
                                 />
                             ))}
                         </div>
-                        <div className="overall-adder">
-                            <div className="overall-button-container">
+                        <div className="credit-adder">
+                            <div className="credit-button-container">
                                 <button onClick={() => { setToRemove(false); setBlurBack(true); setFromWhat('credit')}}>Add Purchase</button>
                                 <button onClick={() => { setToRemove(!toRemove) }}>Remove Purchase</button>
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         )
@@ -181,31 +184,28 @@ function CreditRow({ item, index, toRemove, setToRemove, setReload, reload }) {
         )
     }
     return (
-        <div className='Overall-Row-container' key={index}>
-            <div className='overall-list-item-wrapper'>
-                <div className='overall-list-item'>
-                <div className='overall-list-heading'>
-                    <h1>{item.type.length < 14 ? item.type : item.type.substr(0,11) + '...'}</h1>
-                    <h2>{formatToUsd(item.amount)}</h2>
-                </div>
-                <div className='overall-list-bar'>
-                    <ToDisplayChart item={item} />
-                </div>
-                <div className='overall-list-date'>
-                    <h2>Due:</h2>
-                    <h1>{dateMonthDay(item.due)}</h1>
-                </div>
-                {toRemove ? 
-                    (
-                    <button onClick={() => {
-                        setLoading(true)
-                        setToRemove(false);
-                        removePurchase(item.id)
-                    }} className="stats-list-remove-button"
-                    >X</button>
-                    ) : (
-                    <></>
-                )}
+        <div className='Credit-Row-container' key={index}>
+            <div className='credit-list-item-wrapper'>
+                <div className='credit-list-item'>
+                    <div className='credit-list-heading'>
+                        <h1>{item.type.length < 14 ? item.type : item.type.substr(0,11) + '...'}</h1>
+                        <h2>{formatToUsd(item.amount)}</h2>
+                    </div>
+                    <div className='credit-list-date'>
+                        <h2>Due:</h2>
+                        <h1>{dateMonthDay(item.due)}</h1>
+                    </div>
+                    {toRemove ? 
+                        (
+                        <button onClick={() => {
+                            setLoading(true)
+                            setToRemove(false);
+                            removePurchase(item.id)
+                        }} className="stats-list-remove-button"
+                        >X</button>
+                        ) : (
+                        <></>
+                    )}
                 </div>
             </div>
             <span style={{backgroundColor:'rgba(173, 216, 230, 0.5)', width:'100%', height:'1px'}}></span>

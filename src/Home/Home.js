@@ -9,7 +9,7 @@ import BlurPopout from "../BlurPopout.js"
 // myStocks: firebase stock, myDebts: firebase debts, error: any db or api error, 
 // myFinance: finnhub api stock data, blurBack: popout blur T/F, 
 // setBlurBack: setter for blurBack, fromWhat: string what popout is from
-function Home( { myStocks, myDebts, error, myFinance, blurBack, setBlurBack, fromWhat, setFromWhat, setReload, reload }) {
+function Home( { myStocks, myDebts, error, myFinance, blurBack, setBlurBack, fromWhat, setFromWhat, setReload, reload, user, setUser }) {
   return (
     <div className="Home">
         {blurBack ? 
@@ -18,7 +18,9 @@ function Home( { myStocks, myDebts, error, myFinance, blurBack, setBlurBack, fro
                 setBlurBack={setBlurBack} 
                 fromWhat={fromWhat} 
                 setReload={setReload} 
-                reload={reload} 
+                reload={reload}
+                user={user}
+                setUser={setUser}
             />
         ) : (
         <></>

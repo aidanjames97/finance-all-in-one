@@ -1,6 +1,6 @@
 import React from 'react'
 import "../Styles/Banking.css"
-import BarChart from "../Charts/BarChart"
+import DoubleBarChart from "../Charts/DoubleBarChart"
 import LineChart from '../Charts/LineChart'
 
 const sampleData = [65, 59, 80, 81, 56, 55, 40, 59, 66, 88, 78, 60]
@@ -41,7 +41,7 @@ function Banking() {
         </div>
       </div>
       <div className='banking-chart-wrapper'>
-        <BarChart dataIncome={sampleData} dataExpenses={sampleDataExp} barColorOne={'rgba(0, 255, 255, 1)'} barColorTwo={'rgba(255, 255, 0, 1)'} />
+        <DoubleBarChart dataIncome={sampleData} dataExpenses={sampleDataExp} barColorOne={'rgba(0, 255, 255, 1)'} barColorTwo={'rgba(255, 255, 0, 1)'} />
         <LineChart 
           dataIn={sampleData}
           labelIn={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']}

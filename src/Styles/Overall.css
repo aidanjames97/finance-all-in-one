@@ -1,98 +1,4 @@
-.Overall {
-    width: 100%;
-    height: 100%;
-}
-
-.Overall-error {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.overall-header {
-    height: 35px;
-    font-size: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 600;
-}
-
-.overall-body-grid {
-    width: 100%;
-    height: calc(100% - 35px);
-    display: grid;
-    grid-template-rows: 40% 60%;
-}
-.overall-body-top {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
-    align-items: center;
-}
-.overall-value > h2, .overall-date > h2 {
-    margin: 0;
-    font-weight: 400;
-    font-size: 20px;
-}
-
-.overall-value > h1, .overall-date > h1 {
-    margin: 0;
-    font-weight: 500;
-    font-size: 25px;
-}
-
-.overall-chart {
-    width: auto;
-    height: 32vh;
-}
-.overall-top {
-    width: 100%;
-    height: 60%;
-    margin: 20% 0;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: space-between;
-}
-
-.overall-list-item-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-}
-
-.overall-info {
-    height: 49vh;
-    border: 1px solid rgba(173, 216, 230, 0.2);
-    background: rgba(173, 216, 230, 0.05);
-    border-radius: 5px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-.overall-row {
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding: 1%;
-    width: 98%;
-}
-.overall-row::-webkit-scrollbar {
-    display: none;
-}
-
-.Overall-Row-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
+/* inside of each row (adds padding width) */
 .overall-list-item {
     height: 50px;
     width: 96%;
@@ -102,6 +8,8 @@
     display: grid;
     grid-template-columns: 29% 40% 25%;
 }
+
+/* left side of each row (name & amount) */
 .overall-list-heading {
     height: 90%;
     display: flex;
@@ -120,18 +28,21 @@
     margin: 0;
 }
 
+/* side bar chart (middle) of each row */
 .overall-list-bar {
     height: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+/* 0 and 30 on either side */
 .overall-list-bar > h1 {
     font-size: 10px;
     margin: 0 5px;
     font-weight: 400;
 }
 
+/* right side of each row (due & date) */
 .overall-list-date {
     height: 90%;
     display: flex;
@@ -147,47 +58,4 @@
     font-weight: 400;
     margin: 0;
     font-size: 16px;
-}
-
-.is-past-due {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-.is-past-due > h1 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 700;
-}
-
-.overall-adder {
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    background: #282c34;
-    border-top: 1px solid rgba(173, 216, 230, 0.5);
-    border-radius: 0 0 5px 5px;
-}
-.overall-button-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(173, 216, 230, 0.05);
-}
-.overall-button-container > button {
-    width: 100%;
-    transition: ease-in .2s;
-    background: transparent;
-    border: 0;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    margin: 5px;
-}
-.overall-button-container > button:hover {
-    transition: ease-in .2s;
-    background: rgba(173, 216, 230, 0.1);
-    border-radius: 5px;
-    cursor: pointer;
 }

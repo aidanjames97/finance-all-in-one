@@ -1,21 +1,163 @@
+h1, h2, h3, h4 {
+    margin: 0;
+}
+
+.is-past-due {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.is-past-due > h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* main page of debts */
 .DebtsMain {
     width: 100%;
     height: 100%;
-}
-
-.debts-grid-wrapper {
-    width: 100%;
-    height: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1%;
+    grid-template-columns: 33% 33% 33%;
+    gap: 0.5%;
 }
 
-.debts-credit-left, .debts-history-centre, .debts-overall-right {
-    width: 96%;
-    height: 96%;
-    padding: 2%;
+/* --- debts main page ABOVE --- */
+/* --- global from 3 sections BELOW --- */
+
+/* 3 sections themselves */
+.History, .Credit, .Overall {
+    height: 95%;
     border: 1px solid rgba(173, 216, 230, 0.2);
     background: rgba(173, 216, 230, 0.05);
     border-radius: 5px;
+}
+.credit-wrapper, .history-wrapper, .overall-wrapper {
+    width: 96%;
+    height: 98%;
+    margin: 1% 2%;
+}
+.History-error, .Overall-error, .Credit-error {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(173, 216, 230, 0.2);
+    background: rgba(173, 216, 230, 0.05);
+    border-radius: 5px;
+}
+/* header of each section (text only) */
+.history-header, .overall-header, .credit-header {
+    height: 35px;
+    width: 100%;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+/* inside each sections body (top chart 40% and shaded section 60%) */
+.history-body-grid, .overall-body-grid, .credit-body-grid {
+    height: calc(100% - 35px);
+    display: grid;
+    grid-template-rows: 40% 60%;
+}
+/* chart top section (history is strictly chart) */
+.overall-body-top, .credit-body-top {
+    display: grid;
+    grid-template-columns: 60% 35%;
+    gap: 5%;
+    align-items: center;
+    justify-content: center;
+}
+.history-body-top {
+    width: 100%;
+    height: 100%;
+}
+/* text is chart section */
+.overall-top, .credit-top {
+    width: 100%;
+    height: 60%;
+    margin: 20% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+}
+.overall-value > h2, .overall-date > h2, .credit-value > h2, .credit-date > h2 {
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+}
+.overall-value > h1, .overall-date > h1, .credit-value > h1, .credit-date > h1 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 25px;
+}
+
+/* shaded section */
+.history-info, .overall-info, .credit-info {
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(173, 216, 230, 0.2);
+    background: rgba(173, 216, 230, 0.05);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* row item wrapper */
+.overall-row, .credit-row {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 1%;
+}
+/* row container */
+.Overall-Row-container, .Credit-Row-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+/* row item wrapper (not including bottom span) */
+.overall-list-item-wrapper, .credit-list-item-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.overall-row::-webkit-scrollbar, .credit-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* bottom of all shaded sections buttons */
+.overall-adder, .credit-adder, .history-adder {
+    width: 100%;
+    background: #282c34;
+    border-top: 1px solid rgba(173, 216, 230, 0.5);
+    border-radius: 0 0 5px 5px;
+}
+.overall-button-container, .credit-button-container, .history-button-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(173, 216, 230, 0.05);
+}
+.overall-button-container > button, .credit-button-container > button, .history-button-container > button {
+    width: 100%;
+    transition: ease-in .2s;
+    background: transparent;
+    border: 0;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 5px;
+}
+.overall-button-container > button:hover, .credit-button-container > button:hover, .history-button-container > button:hover {
+    transition: ease-in .2s;
+    background: rgba(173, 216, 230, 0.1);
+    border-radius: 5px;
+    cursor: pointer;
 }

@@ -1,7 +1,9 @@
-h2, h1 {
+/* default margins change */
+h3, h2, h1 {
     margin: 2px;
 }
 
+/* takes up entire screen */
 .blur-background-wrapper {
     position: fixed;
     top: 0;
@@ -15,6 +17,7 @@ h2, h1 {
     align-items: center;
 }
 
+/* actual popout */
 .blur-popout-wrapper {
     border: 1px solid rgba(173, 216, 230, 0.2);
     background: #282c34;
@@ -23,23 +26,29 @@ h2, h1 {
     width: 30%;
     height: 60%;
 }
+
+/* all elems of popout container */
 .blur-popout-container {
     margin: 5%;
     height: 90%;
 }
 
+/* elems of popout */
 .Popout {
     display: grid;
-    grid-template-rows: 15% 70% 15%;
+    grid-template-rows: 10% 80% 10%;
     height: 100%;
 }
 
+/* header, contains: name and exit button (top 10%) */
 .popout-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
+/* exit button (in header) */
 .popout-exit {
     transition: ease-in .2s;
     height: 35px;
@@ -56,12 +65,14 @@ h2, h1 {
     background: rgba(173, 216, 230, 0.05);
 }
 
+/* body of popout (middle 80%) */
 .popout-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+/* each row in body (text text) or (text input) */
 .body-row {
     display: flex;
     flex-direction: column;
@@ -84,6 +95,7 @@ h2, h1 {
     filter: invert(1);
 }
 
+/* bottom 10% of popout */
 .popout-done {
     transition: ease-in .2s;
     height: 80%;
@@ -97,4 +109,13 @@ h2, h1 {
     background: rgba(173, 216, 230, 0.2);
     border-radius: 5px;
     cursor: pointer;
+}
+/* for profile bottom */
+.popout-bottom {
+    width: auto;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5%;
+    align-items: center;
 }

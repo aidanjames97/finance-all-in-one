@@ -2,7 +2,7 @@ import React from 'react'
 import 'chart.js/auto'
 import { Bar } from 'react-chartjs-2'
 
-const BarChart = ({ dataIncome, dataThree, barColorOne, colorThree }) => {
+const DoubleBarChart = ({ dataIncome, dataExpenses, barColorOne, barColorTwo }) => {
 
     const data = {
         type: 'bar',
@@ -15,14 +15,10 @@ const BarChart = ({ dataIncome, dataThree, barColorOne, colorThree }) => {
                 fill: false
             },
             {
-                label: "Goal",
-                type: 'line',
-                backgroundColor: colorThree,
-                data: dataThree,
-                tension: 0.1,
-                fill: false,
-                borderColor: colorThree,
-                borderCapStyle: 'round',
+                label: "Expenses",
+                backgroundColor: barColorTwo,
+                data: dataExpenses,
+                fill: false
             }
         ]
     }
@@ -43,4 +39,4 @@ const BarChart = ({ dataIncome, dataThree, barColorOne, colorThree }) => {
         </div>
     );
 };
-export default BarChart;
+export default DoubleBarChart;
