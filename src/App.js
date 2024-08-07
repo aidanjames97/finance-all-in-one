@@ -143,7 +143,6 @@ const App = () => {
           addUser({
             email: result.user.email,
             name: result.user.displayName.split(" (")[0],
-            username: result.user.displayName.split(" (")[1].replace(")", ''),
             spendingGoal: 0
           }, result.user.uid)
         }
@@ -322,6 +321,14 @@ const App = () => {
               <a href='https://www.linkedin.com/in/aidanjames/' className='footer-right-icon'>
                 <img src={LinkedIn} alt='github' />
               </a>
+              <div className='footer-mobile'>
+              <a href='https://www.linkedin.com/in/aidanjames/' className='footer-right-icon'>
+                <img src={LinkedIn} alt='github' />
+              </a>
+              <a href='https://github.com/aidanjames97' className='footer-right-icon'>
+                <img src={Github} alt='github' />
+              </a>
+              </div>
             </div>
           </div>
         </div>
