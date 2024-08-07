@@ -9,11 +9,7 @@ const GREEN_COLOR = 'rgba(0, 255, 80, 1)';
 const RED_COLOR = 'rgba(255, 0, 80, 1)';
 
 const sampleData = [650, 590, 800, 810, 560, 550, 400, 590, 660, 880, 780, 600]
-const goal = 700
 const avg = calcAvg(sampleData)
-
-const moreSpend = avg - goal
-const moreSpendPer = (avg-goal)/goal * 100
 
 function calcAvg(arr) {
     const sum = arr.reduce((acc, currVal) => acc + currVal, 0);
@@ -35,7 +31,10 @@ function formatPercent(num) {
 }
   
 
-function History({ myDebts, error, setBlurBack, setFromWhat, setReload, reload }) {
+function History({ myDebts, error, setBlurBack, setFromWhat, setReload, reload, userData }) {
+    const moreSpend = avg - userData.spendingGoal
+    const moreSpendPer = (avg-userData.spendingGoal)/userData.spendingGoal * 100
+
     if(error) {
         return (
             <div className='History-error'>Could Not Load Data</div>
@@ -68,7 +67,7 @@ function History({ myDebts, error, setBlurBack, setFromWhat, setReload, reload }
                             <span style={{backgroundColor:'rgba(173, 216, 230, 0.5)', width:'1px', height:'80%'}}></span>
                             <div className='history-goal'>
                                 <h1>Your Goal:</h1>
-                                <h3>{formatToUsd(goal)}</h3>
+                                <h3>{formatToUsd(userData.spendingGoal)}</h3>
                             </div>
                         </div>
                         <div className='history-body-middle'>

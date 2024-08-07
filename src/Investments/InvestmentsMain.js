@@ -5,14 +5,24 @@ import Info from "./Info"
 import { useEffect, useState } from "react";
 import BlurPopout from "../BlurPopout";
 
-function InvestmentsMain({ myStocks, error, myFinance, blurBack, setBlurBack, fromWhat, setFromWhat, setReload, reload }) {
+function InvestmentsMain({ myStocks, error, myFinance, blurBack, setBlurBack, fromWhat, setFromWhat, setReload, reload, user, userData, setUserData }) {
   const [clickIndex, setClickIndex] = useState(0)
 
   return (
     <div className="InvestmentsMain">
       {blurBack ? 
       (
-        <BlurPopout setBlurBack={setBlurBack} fromWhat={fromWhat} setReload={setReload} reload={reload} setClickIndex={setClickIndex} clickIndex={clickIndex} />
+        <BlurPopout 
+          setBlurBack={setBlurBack} 
+          fromWhat={fromWhat} 
+          setReload={setReload} 
+          reload={reload} 
+          setClickIndex={setClickIndex} 
+          clickIndex={clickIndex}
+          user={user}
+          userData={userData}
+          setUserData={setUserData} 
+        />
       ) : (
         <></>
       )}

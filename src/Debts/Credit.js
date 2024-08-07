@@ -60,12 +60,14 @@ function Credit({ myCredit, error, setBlurBack, setFromWhat, setReload, reload }
     } else if(myCredit) {
         if(myCredit.length === 0) {
             return (
-                <div className='no-info'>
-                    <h1>Add Your Purchases!</h1>
-                    <button 
-                    className='no-info-button'
-                    onClick={() => { setBlurBack(true); setFromWhat('credit') }}
-                >Add Purchase</button>
+                <div className='Credit'>
+                    <div className='no-info'>
+                        <h1>Add Your Purchases!</h1>
+                        <button 
+                        className='no-info-button'
+                        onClick={() => { setBlurBack(true); setFromWhat('credit') }}
+                    >Add Purchase</button>
+                    </div>
                 </div>
             );
         }

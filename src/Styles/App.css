@@ -227,7 +227,7 @@ html, body, button {
 }
 .logo {
   position: absolute;
-  animation: logoAnimation 5s linear infinite;
+  animation: logoAnimation 4s linear infinite;
 }
 .hexagon {
   position: absolute;

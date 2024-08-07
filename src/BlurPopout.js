@@ -5,7 +5,7 @@ import { collection, doc, setDoc } from "firebase/firestore"
 import { key } from './API/api';
 import axios from 'axios';
 
-function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, clickIndex, user, setUser }) {
+function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, clickIndex, user, setUser, userData, setUserData }) {
   return (
     <div className='blur-background-wrapper'>
         <div className='blur-popout-wrapper'>
@@ -18,18 +18,22 @@ function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, c
                 reload={reload}
                 user={user}
                 setUser={setUser}
+                userData={userData}
+                setUserData={setUserData}
               />
             ) : fromWhat === 'debts' ? (
               <AddExpensePopout 
                 setBlurBack={setBlurBack} 
                 setReload={setReload} 
-                reload={reload} 
+                reload={reload}
+                user={user}
               />
             ) : fromWhat === 'credit' ? (
               <AddPurchasePopout 
                 setBlurBack={setBlurBack} 
                 setReload={setReload} 
-                reload={reload} 
+                reload={reload}
+                user={user}
               />
             ) : (
               <AddStockPopout 
@@ -37,7 +41,8 @@ function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, c
                 setReload={setReload} 
                 reload={reload} 
                 setClickIndex={setClickIndex} 
-                clickIndex={clickIndex} 
+                clickIndex={clickIndex}
+                user={user}
               />
             )}
           </div>
@@ -48,12 +53,10 @@ function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, c
 
 export default BlurPopout
 
-function ProfilePopout({ setBlurBack, setReload, reload, user, setUser }) {
+function ProfilePopout({ setBlurBack, setReload, reload, user, setUser, userData, setUserData }) {
   // state vars from input fields
   const [loading, setLoading] = useState(false)
-  const [spedingGoal, setSpendingGoal] = useState('')
-
-  const displayNameElems = user.displayName.replace(")", '').split(" (")
+  const [spedingGoal, setSpendingGoal] = useState(userData.spendingGoal)
 
   function checkValid() {
     // check for number
@@ -66,9 +69,18 @@ function ProfilePopout({ setBlurBack, setReload, reload, user, setUser }) {
       return;
     }
 
-    setBlurBack(false)
-    setReload(!reload)
-    setLoading(false)
+    async function addToDB() {
+      const profileRef = doc(db, "users", user.uid);
+      setDoc(profileRef, { spendingGoal: spedingGoal }, { merge: true })
+    }
+
+    addToDB()
+    .then(() => {
+      setBlurBack(false)
+      setReload(!reload)
+      setLoading(false)
+    })
+    .catch((error) => alert("Couldn't edit profile"))
   }
 
   if(loading) {
@@ -81,7 +93,7 @@ function ProfilePopout({ setBlurBack, setReload, reload, user, setUser }) {
   return (
     <div className='Popout'>
       <div className='popout-header'>
-        <h1>{displayNameElems[0]}'s Profile</h1>
+        <h1>{userData.name}'s Profile</h1>
         <button className='popout-exit' onClick={() => setBlurBack(false)}>X</button>
       </div>
       <div className='popout-body'>
@@ -90,11 +102,11 @@ function ProfilePopout({ setBlurBack, setReload, reload, user, setUser }) {
         </div>
         <div className='body-row'>
           <h2>Username:</h2>
-          <h3>{displayNameElems[1]}</h3>
+          <h3>{userData.name}</h3>
         </div>
         <div className='body-row'>
           <h2>Email:</h2>
-          <h3>{user.email}</h3>
+          <h3>{userData.email}</h3>
         </div>
         <div className='body-row'>
           {/* for history spending goal */}
@@ -120,7 +132,7 @@ function ProfilePopout({ setBlurBack, setReload, reload, user, setUser }) {
   )
 }
 
-function AddStockPopout({ setBlurBack, setReload, reload, setClickIndex, clickIndex}) {
+function AddStockPopout({ setBlurBack, setReload, reload, setClickIndex, clickIndex, user}) {
   // state vars from input fields
   const [ticker, setTicker] = useState('')
   const [shares, setShares] = useState('')
@@ -208,7 +220,7 @@ function AddStockPopout({ setBlurBack, setReload, reload, setClickIndex, clickIn
 
   // add new col
   async function addToDB(data) {
-    const newStockRef = doc(collection(db, 'stocks'));
+    const newStockRef = doc(collection(db, `users/${user.uid}/stocks`));
     await setDoc(newStockRef, data)
     setBlurBack(false)
     setReload(!reload)
@@ -285,7 +297,7 @@ function AddStockPopout({ setBlurBack, setReload, reload, setClickIndex, clickIn
   }
 }
 
-function AddExpensePopout({ setBlurBack, setReload, reload }) {
+function AddExpensePopout({ setBlurBack, setReload, reload, user }) {
   // state vars from input fields
   const [type, setType] = useState('')
   const [amount, setAmount] = useState('')
@@ -334,7 +346,7 @@ function AddExpensePopout({ setBlurBack, setReload, reload }) {
   
   // add new col
   async function addToDB(data) {
-    const newDebtRef = doc(collection(db, 'debts'));
+    const newDebtRef = doc(collection(db, `users/${user.uid}/debts`));
     await setDoc(newDebtRef, data)
     setBlurBack(false)
     setReload(!reload)
@@ -397,7 +409,7 @@ function AddExpensePopout({ setBlurBack, setReload, reload }) {
   )
 }
 
-function AddPurchasePopout({ setBlurBack, setReload ,reload }) {
+function AddPurchasePopout({ setBlurBack, setReload ,reload, user }) {
   // state vars from input fields
   const [type, setType] = useState('')
   const [amount, setAmount] = useState('')
@@ -439,12 +451,12 @@ function AddPurchasePopout({ setBlurBack, setReload ,reload }) {
     }
 
     // all inputs are valid here (type, numVal, dateVal)
-    addToDB({type: type, amount: (parseFloat(numVal.toFixed(2))), due: dateVal})
+    addToDB({type: type, amount: (parseFloat(numVal.toFixed(2))), date: dateVal})
   }
 
     // add new col
     async function addToDB(data) {
-      const newDebtRef = doc(collection(db, 'credit'));
+      const newDebtRef = doc(collection(db, `users/${user.uid}/credit`));
       await setDoc(newDebtRef, data)
       setBlurBack(false)
       setReload(!reload)
@@ -485,7 +497,7 @@ function AddPurchasePopout({ setBlurBack, setReload ,reload }) {
         </div>
         <div className='body-row'>
           {/* aka due */}
-          <h2>Due:</h2>
+          <h2>Date:</h2>
           <input 
             type='date'
             value={due}

@@ -5,7 +5,7 @@ import Credit from './Credit'
 import History from './History'
 import Overall from './Overall'
 
-function DebtsMain({ blurBack, setBlurBack, setFromWhat, fromWhat, myDebts, error, setReload, reload, myCredit }) {
+function DebtsMain({ blurBack, setBlurBack, setFromWhat, fromWhat, myDebts, error, setReload, reload, myCredit, userData, setUserData, user }) {
   return (
     <div className='DebtsMain'>
         {blurBack ? 
@@ -15,6 +15,9 @@ function DebtsMain({ blurBack, setBlurBack, setFromWhat, fromWhat, myDebts, erro
             fromWhat={fromWhat} 
             setReload={setReload} 
             reload={reload}
+            userData={userData}
+            user={user}
+            setUserData={setUserData}
           />
         ) : (
         <></>
@@ -34,6 +37,7 @@ function DebtsMain({ blurBack, setBlurBack, setFromWhat, fromWhat, myDebts, erro
           setFromWhat={setFromWhat}
           setReload={setReload}
           reload={reload}
+          userData={userData}
         />
         <Overall 
           myDebts={myDebts} 

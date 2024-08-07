@@ -2,7 +2,8 @@ import './Styles/App.css';
 import React, { useState, useEffect } from "react"
 import SignedIn from "./SignedIn"
 import { signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from './API/Firebase';
+import { db, auth, googleProvider } from './API/Firebase';
+import { getDoc, doc, setDoc, collection } from 'firebase/firestore';
 import Mesh from "./Pics/backMesh.png"
 import { Link, animateScroll as scroll } from 'react-scroll';
 import sLine from "./Pics/goeLogo.png"
@@ -96,13 +97,62 @@ const App = () => {
 
   // runs when user clicks "sign in with google" button
   const signIn = () => {
+    // check if this is new user
+    async function checkForUser(uid) {
+      const docSnap = await getDoc(doc(db, "users", uid))
+      if(docSnap.exists()) {
+        return true
+      }
+      return false
+    }
+    // adding new user
+    async function addUser(data, uid) {
+      // creating new user
+      const newUserRef = doc(db, "users", uid);
+      await setDoc(newUserRef, data)
+      // creating stock collection (w/ sample)
+      const newStockRef = doc(collection(db, `users/${uid}`, "stocks"), '0000000000000000000000')
+      await setDoc(newStockRef, {
+        shares: 123.45,
+        ticker: 'SAMPLE',
+        buyPrice: 123.4567,
+        buyDate: date
+      })
+      // creating debts collection (w/ sample)
+      const newDebtsRef = doc(collection(db, `users/${uid}`, "debts"), '0000000000000000000000')
+      await setDoc(newDebtsRef, {
+        amount: 123.45,
+        type: 'SAMPLE',
+        due: date,
+      })
+
+      const newCreditRef = doc(collection(db, `users/${uid}`, "credit"), '0000000000000000000000')
+      await setDoc(newCreditRef, {
+        amount: 123.45,
+        type: 'SAMPLE',
+        date: date
+      })
+    }
+
     signInWithPopup(auth, googleProvider)
     .then((result) => {
-      setUser(result.user)
+      checkForUser(result.user.uid)
+      .then((res) => {
+        if(!res) {
+          // user doesn't exist, create them
+          addUser({
+            email: result.user.email,
+            name: result.user.displayName.split(" (")[0],
+            username: result.user.displayName.split(" (")[1].replace(")", ''),
+            spendingGoal: 0
+          }, result.user.uid)
+        }
+        // user exists
+        setUser(result.user)
+      })
     })
     .catch((error) => {
       alert("Error with login: " + error)
-      console.log(error)
     })
   }
 
