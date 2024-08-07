@@ -37,6 +37,12 @@ html, body, button {
   flex-direction: column;
 }
 
+@media (max-width: 800px) {
+  .scroll-element.visible {
+    height: 90dvh;
+  }
+}
+
 /* for when component has no info to display */
 .no-info {
   height: 100%;
@@ -153,11 +159,31 @@ html, body, button {
   height: 60px;
 }
 
+@media (max-width: 800px) {
+  .navbar-grid-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 80% 0 20%;
+  }
+  .navButton {
+    width: 40px;
+    height: 40px;
+  }
+  .navbar-date > h2 {
+    font-size: 16px;
+  }
+  .navbar-date > h1 {
+    font-size: 18px;
+  }
+  .navbar-right-button > img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 /* landing section */
 .welcome-items-container {
   position: relative;
-  width: 94dvw;
-  margin: 0 3dvw;
   height: calc(100dvh - 75px);
   display: flex;
   flex-direction: column;
@@ -205,6 +231,24 @@ html, body, button {
   transition: ease-in .2s;
   cursor: pointer;
   border: 3px solid white;
+}
+
+@media (max-width: 800px) {
+  .back-mesh-fade {
+    width: 200%;
+    height: 150%;
+  }
+  .back-mesh {
+    height: 50%;
+  }
+  .welcome-items {
+    margin-top: 10dvh;
+    margin-left: 5dvw;
+    width: 60dvw;
+  }
+  .welcome-text > h1 {
+    font-size: 35px;
+  }
 }
 
 /* --- about section --- */
@@ -296,7 +340,7 @@ html, body, button {
   font-size: 25px;
   font-weight: 300;
 }
-/* google sign in about button */
+/* services link button */
 .explore-button-container {
   width: 150px;
   height: 35px;
@@ -324,6 +368,64 @@ html, body, button {
 .explore-button > h2 {
   font-size: 20px;
   font-weight: 600;
+}
+
+@media (max-width: 800px) {
+  .welcome-about {
+    align-items: center;
+  }
+  .about-right-icon {
+    width: 100%;
+    top: -20dvh;
+    right: 0;
+  }
+  .about-right-icon > img {
+    width: 38%;
+  }
+  @keyframes logoAnimation {
+    0%, 100% {
+      width: 30%;
+      rotate: 0deg;
+    }
+    10% {
+      width: 30%;
+      rotate: 360deg;
+    }
+    30% {
+      width: 30%;
+      rotate: 360deg;
+    }
+    50% {
+      width: 25%;
+      rotate: 360deg;
+    }
+    60% {
+      width: 25%;
+      rotate: 360deg;
+    }
+    70% {
+      width: 25%;
+      rotate: 0deg;
+    }
+    80% {
+      width: 25%;
+      rotate: 0deg;
+    }
+    90% {
+      width: 30%;
+      rotate: 0deg;
+    }
+  }
+  .about-text {
+    margin: 0;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .explore-button-container {
+    display: flex;
+  }
 }
 
 /* --- services section --- */
@@ -432,6 +534,31 @@ html, body, button {
   rotate: 15deg;
 }
 
+@media (max-width: 800px) {
+  .welcome-services {
+    align-items: end;
+  }
+  .back-mesh-two-back {
+    width: 200%;
+    height: 100%;
+  }
+  .back-mesh-two {
+    height: 75%;
+  }
+  .services-text {
+    margin: 0;
+    margin-bottom: 5dvh;
+    width: 100%;
+  }
+  .services-left-graphic {
+    top: -15dvh;
+    width: 90%;
+  }
+  .services-left-graphic > img {
+    width: 25%;
+  }
+}
+
 /* --- footer section --- */
 .welcome-footer {
   width: 100%;
@@ -462,6 +589,7 @@ html, body, button {
   height: 65px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 .footer-left > h1 {
@@ -535,4 +663,48 @@ html, body, button {
 }
 .footer-right-text-icon > a:hover {
   cursor: pointer;
+}
+
+.footer-mobile {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .welcome-footer {
+    height: 125px;
+  }
+  .footer-left-icons-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .footer-left-icon {
+    margin: 0;
+    margin-left: 25%;
+  }
+  .footer-left {
+    width: 40%;
+    text-align: center;
+  }
+  .footer-left > h1 {
+    font-size: 14px;
+  }
+  .footer-right {
+    width: 40%;
+    text-align: center;
+  }
+  .footer-right > h1 {
+    font-size: 14px;
+  }
+  .footer-right-text-icon {
+    display: flex;
+    flex-direction: column;
+  }
+  .footer-right-text-icon > a > img {
+    display: none;
+  }
+  .footer-mobile {
+    display: flex;
+    flex-direction: row;
+  }
 }
