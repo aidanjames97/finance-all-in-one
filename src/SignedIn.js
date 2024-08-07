@@ -8,12 +8,7 @@ import Spending from './Debts/DebtsMain';
 import Saving from "./Saving/SavingMain";
 import Investments from "./Investments/InvestmentsMain";
 import { db } from "./API/Firebase"
-import { collection, getDocs } from 'firebase/firestore';
-
-// global constants
-const DEBTS_COL = collection(db, 'debts');
-const STOCK_COL = collection(db, 'stocks');
-const CREDIT_COL = collection(db, 'credit');
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 
 function SignedIn({ user, setUser }) {
    // get stock data
@@ -25,22 +20,29 @@ function SignedIn({ user, setUser }) {
   const [reload, setReload] = useState(true);
   const [blurBack, setBlurBack] = useState(false);
   const [fromWhat, setFromWhat] = useState(null);
+  const [userData, setUserData] = useState([]);
 
   useEffect(() => {
     // firebase stock data
     const getFireData = async () => {
-      const data = await getDocs(STOCK_COL)
+      const data = await getDocs(collection(db, `users/${user.uid}/stocks`))
       return(data.docs.map((elem) => ({ ...elem.data(), id: elem.id})))
     }
     // firebase debts data
     const getFireDebt = async() => {
-      const data = await getDocs(DEBTS_COL)
+      const data = await getDocs(collection(db, `users/${user.uid}/debts`))
       return(data.docs.map((elem) => ({ ...elem.data(), id: elem.id})))
     }
     // firebase credit data
     const getFireCreditData = async () => {
-      const data = await getDocs(CREDIT_COL)
+      const data = await getDocs(collection(db, `users/${user.uid}/credit`))
       return(data.docs.map((elem) => ({ ...elem.data(), id: elem.id})))
+    }
+
+    // firebase user data
+    const getFireUserData = async () => {
+      const docSnap = await getDoc(doc(db, "users", user.uid));
+      return(docSnap.data())
     }
 
     // fetching api data
@@ -89,6 +91,12 @@ function SignedIn({ user, setUser }) {
         })
     })
     .catch(error => setError(error))
+
+    getFireUserData()
+    .then((res) => {
+      setUserData(res)
+    })
+    .catch(error => { setError(error); console.log(error) })
     }, [reload])
 
     return (
@@ -110,6 +118,8 @@ function SignedIn({ user, setUser }) {
                   reload={reload}
                   user={user}
                   setUser={setUser}
+                  userData={userData}
+                  setUserData={setUserData}
                 />} 
               />
               <Route exact path='/Spending' element={
@@ -122,14 +132,22 @@ function SignedIn({ user, setUser }) {
                   error={error} 
                   setReload={setReload} 
                   reload={reload}
-                  myCredit={myCredit} 
+                  myCredit={myCredit}
+                  userData={userData}
+                  setUserData={setUserData}
+                  user={user}
                 />} 
               />
               <Route exact path='/Saving' element={
                 <Saving 
                   blurBack={blurBack} 
                   setBlurBack={setBlurBack} 
-                  fromWhat={fromWhat} 
+                  fromWhat={fromWhat}
+                  setReload={setReload}
+                  reload={reload}
+                  user={user}
+                  userData={userData}
+                  setUserData={setUserData}
                 />} 
               />
               <Route exact path='/Investments' element={
@@ -142,7 +160,10 @@ function SignedIn({ user, setUser }) {
                   fromWhat={fromWhat} 
                   setFromWhat={setFromWhat} 
                   setReload={setReload} 
-                  reload={reload} 
+                  reload={reload}
+                  user={user}
+                  userData={userData}
+                  setUserData={setUserData}
                 />}
               />
             </Routes>

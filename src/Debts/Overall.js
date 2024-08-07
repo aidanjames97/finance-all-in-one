@@ -60,12 +60,14 @@ function Overall({ myDebts, error, setBlurBack, setFromWhat, setReload, reload }
     } else if(myDebts) {
         if(myDebts.length === 0) {
             return (
-                <div className='no-info'>
-                    <h1>Add Expenses!</h1>
-                    <button 
-                    className='no-info-button'
-                    onClick={() => { setBlurBack(true); setFromWhat('debts') }}
-                >Add Expense</button>
+                <div className='Credit'>
+                    <div className='no-info'>
+                        <h1>Add Expenses!</h1>
+                        <button 
+                        className='no-info-button'
+                        onClick={() => { setBlurBack(true); setFromWhat('debts') }}
+                    >Add Expense</button>
+                    </div>
                 </div>
             );
         }
