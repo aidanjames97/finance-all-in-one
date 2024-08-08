@@ -15,7 +15,7 @@ function formatPercent(num) {
     return num.toFixed(2) + '%'
 }
 
-function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromWhat, setReload, reload, clickIndex }) {
+function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromWhat, setReload, reload, clickIndex, user }) {
     const [toRemove, setToRemove] = useState(false)
 
     if(error) {
@@ -68,6 +68,7 @@ function Menu({ myStocks, error, myFinance, setClickIndex, setBlurBack, setFromW
                                     setReload={setReload}
                                     reload={reload}
                                     clickIndex={clickIndex}
+                                    user={user}
                                 />
                             ))}
                         </div>

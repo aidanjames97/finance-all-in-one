@@ -1,0 +1,90 @@
+.purchase-popout {
+    animation: fadeIn ease 0.5s;
+    z-index: 100;
+    width: 100dvw;
+    height: 100dvh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes fadeIn {
+    0% {
+        background: none;
+    }
+    100% {
+        background: rgba(0, 0, 0, 0.4);
+    }
+}
+
+.purchase-wrapper {
+    width: 50%;
+    height: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background-color: rgb(40, 44, 52);
+}
+.purchase-container {
+    width: 96%;
+    height: 93%;
+    margin: 2%;
+    display: grid;
+    grid-template-rows: 15% 85%;
+}
+
+.purchase-header-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.purchase-header-container > button {
+    transition: ease-in .2s;
+    height: 5dvh;
+    width: 5dvh;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    background: none;
+}
+.purchase-header-container > button:hover {
+    transition: ease-in .2s;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.purchase-body-container {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
+.body-not-signed-in {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.body-not-signed-in > button {
+    transition: ease-in .2s;
+    height: 5dvh;
+    width: 10dvw;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    font-size: 20px;
+    background: none;
+}
+.body-not-signed-in > button:hover {
+    cursor: pointer;
+    transition: ease-in .2s;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+}

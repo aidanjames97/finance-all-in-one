@@ -4,8 +4,9 @@ import { db, auth } from "./API/Firebase"
 import { collection, doc, setDoc } from "firebase/firestore"
 import { key } from './API/api';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, clickIndex, user, setUser, userData, setUserData }) {
+function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, clickIndex, user, setUser, userData, setUserData, setAccessPage }) {
   return (
     <div className='blur-background-wrapper'>
         <div className='blur-popout-wrapper'>
@@ -20,6 +21,7 @@ function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, c
                 setUser={setUser}
                 userData={userData}
                 setUserData={setUserData}
+                setAccessPage={setAccessPage}
               />
             ) : fromWhat === 'debts' ? (
               <AddExpensePopout 
@@ -53,10 +55,11 @@ function BlurPopout({ setBlurBack, fromWhat, setReload, reload, setClickIndex, c
 
 export default BlurPopout
 
-function ProfilePopout({ setBlurBack, setReload, reload, user, setUser, userData, setUserData }) {
+function ProfilePopout({ setBlurBack, setReload, reload, user, setUser, userData, setUserData, setAccessPage }) {
   // state vars from input fields
   const [loading, setLoading] = useState(false)
   const [spedingGoal, setSpendingGoal] = useState(userData.spendingGoal)
+  const [isVisible, setIsVisible] = useState(false)
 
   function checkValid() {
     // check for number
@@ -90,8 +93,35 @@ function ProfilePopout({ setBlurBack, setReload, reload, user, setUser, userData
       </div>
     ); 
   }
+
+  // for handling purchase change
+  function handlePurchase(type) {
+
+    const profileRef = doc(db, "users", user.uid);
+    setDoc(profileRef, { subscription: type }, { merge: true })
+    setReload(!reload)
+    handleSlide()
+  }
+
+  // handles banner slide in on sign in
+  const handleSlide = () => {
+    setTimeout(() => {
+      setIsVisible(true);
+      setTimeout(() => {
+        setIsVisible(false)
+      }, 3000);
+    }, 500)
+  };
+
   return (
     <div className='Popout'>
+      {user ? (
+        <div className={`sliding-div ${isVisible ? 'slide-in' : 'slide-out'}`}>
+          <h1>Subscription changed</h1>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className='popout-header'>
         <h1>{userData.name}'s Profile</h1>
         <button className='popout-exit' onClick={() => setBlurBack(false)}>X</button>
@@ -99,10 +129,6 @@ function ProfilePopout({ setBlurBack, setReload, reload, user, setUser, userData
       <div className='popout-body'>
         <div className='body-row'>
           <img style={{borderRadius: '50px', border: '2px solid'}} src={user.photoURL} alt='user-profile-pic' />
-        </div>
-        <div className='body-row'>
-          <h2>Username:</h2>
-          <h3>{userData.name}</h3>
         </div>
         <div className='body-row'>
           <h2>Email:</h2>
@@ -117,16 +143,42 @@ function ProfilePopout({ setBlurBack, setReload, reload, user, setUser, userData
             onChange={(e) => setSpendingGoal(e.target.value)}
           />
         </div>
+        <div className='body-row'>
+          <h2>Subscription:</h2>
+          <div className='subscription-row'>
+            {userData.subscription === 'silver' ? (
+              <button style={{background: 'rgba(173, 216, 230, 0.2)', border: '1px solid rgba(255, 255, 255, 0.4)'}}>Silver</button>
+            ) : (
+              <button onClick={() => handlePurchase('silver')}>Silver</button>
+            )}
+            {userData.subscription === 'gold' ? (
+              <button style={{background: 'rgba(173, 216, 230, 0.2)', border: '1px solid rgba(255, 255, 255, 0.4)'}}>Gold</button>
+            ) : (
+              <button onClick={() => handlePurchase('gold')}>Gold</button>
+            )}
+            {userData.subscription === 'platinum' ? (
+              <button style={{background: 'rgba(173, 216, 230, 0.2)', border: '1px solid rgba(255, 255, 255, 0.4)'}}>Platinum</button>
+            ) : (
+              <button onClick={() => handlePurchase('platinum')}>Platinum</button>
+            )}
+          </div>
+        </div>
       </div>
       <div className='popout-bottom'>
-      <button 
+      <Link 
         className='popout-done'
         onClick={() => { setLoading(true); checkValid() }}
-      >Done</button>
-      <button
+      >Done</Link>
+      <Link
+        to='/'
+        className='popout-done'
+        onClick={() => setAccessPage(false)}
+      >Home</Link>
+      <Link
+      to='/'
         className='popout-done'
         onClick={() => auth.signOut().then(() => setUser(null))}
-      >Sign Out</button>
+      >Sign Out</Link>
       </div>
     </div>
   )
@@ -224,7 +276,11 @@ function AddStockPopout({ setBlurBack, setReload, reload, setClickIndex, clickIn
     await setDoc(newStockRef, data)
     setBlurBack(false)
     setReload(!reload)
-    setClickIndex(0)
+    try {
+      setClickIndex(0)
+    } catch {
+      // not in investment page
+    }
   }
 
   if(error) {

@@ -8,9 +8,9 @@ import Spending from './Debts/DebtsMain';
 import Saving from "./Saving/SavingMain";
 import Investments from "./Investments/InvestmentsMain";
 import { db } from "./API/Firebase"
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, deleteDoc, query, where } from 'firebase/firestore';
 
-function SignedIn({ user, setUser }) {
+function SignedIn({ user, setUser, setAccessPage }) {
    // get stock data
   const [myStocks, setMyStocks] = useState([]);
   const [myFinance, setMyFinance] = useState([]);
@@ -59,7 +59,23 @@ function SignedIn({ user, setUser }) {
         })
         setMyFinance(outData);
       } catch (error) {
-        setError(error);
+        // deleting bad request
+        async function del(id) {
+          await deleteDoc(doc(db, `users/${user.uid}/stocks`, id))
+        }
+
+        if(error.response.status === 403) {
+          alert("Ticker not found, could not add")
+          const q = query(collection(db, `users/${user.uid}/stocks`), where("ticker", "==", (error.config.url).split("symbol=")[1].split("&token")[0]));
+
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+            del(doc.id)
+          });
+        } else {
+          setError(error);
+        }
+        setReload(!reload)
       }
     };
 
@@ -96,7 +112,7 @@ function SignedIn({ user, setUser }) {
     .then((res) => {
       setUserData(res)
     })
-    .catch(error => { setError(error); console.log(error) })
+    .catch(error => setError(error))
     }, [reload])
 
     return (
@@ -120,6 +136,7 @@ function SignedIn({ user, setUser }) {
                   setUser={setUser}
                   userData={userData}
                   setUserData={setUserData}
+                  setAccessPage={setAccessPage}
                 />} 
               />
               <Route exact path='/Spending' element={
@@ -136,6 +153,8 @@ function SignedIn({ user, setUser }) {
                   userData={userData}
                   setUserData={setUserData}
                   user={user}
+                  setAccessPage={setAccessPage}
+                  setUser={setUser}
                 />} 
               />
               <Route exact path='/Saving' element={
@@ -148,6 +167,8 @@ function SignedIn({ user, setUser }) {
                   user={user}
                   userData={userData}
                   setUserData={setUserData}
+                  setAccessPage={setAccessPage}
+                  setUser={setUser}
                 />} 
               />
               <Route exact path='/Investments' element={
@@ -164,6 +185,8 @@ function SignedIn({ user, setUser }) {
                   user={user}
                   userData={userData}
                   setUserData={setUserData}
+                  setAccessPage={setAccessPage}
+                  setUser={setUser}
                 />}
               />
             </Routes>

@@ -1,0 +1,218 @@
+/* navbar section */
+.welcome-navbar {
+    width: auto;
+    height: 75px;
+  }
+  .Navbar {
+    width: 94dvw;
+    height: 100%;
+    margin: 0 3dvw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .navbar-grid-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 40% 20% 40%;
+  }
+  
+  .navbar-left-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .navButton {
+    transition: ease-in .3s;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+  }
+  
+  .navButton:hover {
+    transition: ease-in .3s;
+    cursor: pointer;
+    background: #7950F2;
+  }
+  
+  .navbar-date > h2 {
+    font-weight: 200;
+    font-size: 20px;
+  }
+  .navbar-date > h1 {
+    font-weight: 600;
+    font-size: 25px;
+  }
+  
+  .navbar-right-button {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+  }
+  .navbar-logo-button {
+    background: none;
+    border: none;
+    z-index: 2;
+  }
+  
+  .navbar-logo-button > img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .navbar-right-button > button {
+    cursor: pointer;
+  }
+  
+  .spin-change {
+    animation: spinLogo 1s ease;
+    transition: filter 1s ease;
+    filter: grayscale(100) brightness(1000);
+    rotate: 180deg;
+  }
+  .spin-original {
+    animation: spinLogoBack 1s ease;
+  }
+  
+  @keyframes spinLogo {
+    0% {
+      rotate: 0deg;
+      filter: grayscale(0) brightness(100);
+    }
+    100% {
+      rotate: 180deg;
+      filter: grayscale(100) brightness(1000);
+    }
+  }
+  @keyframes spinLogoBack {
+    0% {
+      rotate: 180deg;
+      filter: grayscale(100) brightness(1000);
+    }
+    10% {
+      filter: grayscale(0) brightness(100);
+    }
+    100% {
+      rotate: 0deg;
+    }
+  }
+  
+  .navbar-dropdown {
+    outline: none;
+    position: absolute;
+    border-radius: 5px;
+    right: 2dvw;
+    top: 10px;
+    width: 100px;
+    background: #7950F2;
+    z-index: 1;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .drop-down {
+    animation: growDown 1s ease;
+    height: 120px;
+    opacity: 1;
+  }
+  
+  @keyframes growDown {
+    0% {
+      opacity: 0;
+      height: 0px;
+    }
+    100% {
+      height: 120px;
+      opacity: 1;
+    }
+  }
+  
+  .pull-up {
+    animation: shrinkUp 1s ease;
+  }
+  
+  @keyframes shrinkUp {
+    0% {
+      opacity: 1;
+      height: 120px;
+    }
+    100% {
+      opacity: 0;
+      height: 0px;
+    }
+  }
+  
+  .navbar-dropdown > span {
+    height: 1px;
+    background: white;
+    width: 70px;
+  }
+  
+  .top-dropdown-span {
+    position: absolute;
+    top: 60px;
+  }
+  .middle-dropdown-span {
+    position: absolute;
+    top: 90px;
+  }
+  .dropdown-button-top {
+    transition: ease-in .2s;
+    position: absolute;
+    top: 60px;
+    background: none;
+    border: none;
+    height: 30px;
+    width: 100%;
+  }
+  .dropdown-button-bottom {
+    transition: ease-in .2s;
+    position: absolute;
+    top: 90px;
+    background: none;
+    border: none;
+    height: 30px;
+    width: 100%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  .dropdown-button-bottom:hover, .dropdown-button-top:hover {
+    transition: ease-in .2s;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  @media (max-width: 800px) {
+    .navbar-grid-wrapper {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 80% 0 20%;
+    }
+    .navButton {
+      width: 40px;
+      height: 40px;
+    }
+    .navbar-date > h2 {
+      font-size: 16px;
+    }
+    .navbar-date > h1 {
+      font-size: 18px;
+    }
+    .navbar-right-button > img {
+      width: 40px;
+      height: 40px;
+    }
+    .navbar-dropdown {
+        width: 80px;
+    }
+  }
