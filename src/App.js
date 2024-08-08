@@ -7,11 +7,7 @@ import { getDoc, doc, setDoc, collection } from 'firebase/firestore';
 import Mesh from "./Pics/backMesh.png"
 import { Link, animateScroll as scroll } from 'react-scroll';
 import sLine from "./Pics/goeLogo.png"
-import Home from "./Pics/home.png"
-import Info from "./Pics/information.png"
-import Service from "./Pics/services.png"
 import Github from "./Pics/github.png"
-import Web from "./Pics/world-wide-web.png"
 import LinkedIn from "./Pics/linkedin.png"
 import ReactLogo from "./Pics/react.png"
 import FireLogo from "./Pics/firebase.png"
@@ -22,16 +18,21 @@ import ChartPlat from "./Pics/chartPlat.png"
 import BackWavy from "./Pics/backWavy.png"
 import Flaticon from "./Pics/flaticon.png"
 import Hexagon from "./Pics/hexagon.png"
+import Navbar from './Navbar';
+import Purchase from './Purchase';
+import Arrow from "./Pics/arrow.png"
 
-// for date display
-const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+// getting today
 const date = new Date()
 
 const App = () => {
-  // user from google sign in 
-  const [user, setUser] = useState(null);
-  // for services to display different graphs
-  const [outText, setOutText] = useState('plat')
+  const [isVisible, setIsVisible] = useState(false); // sliding banner
+  const [accessPage, setAccessPage] = useState(false); // to access dashboard
+  const [displayPurchase, setDisplayPurchases] = useState(false); // to diplay purchase popout
+  const [selectedPurchase, setSelectedPurchase] = useState(''); // which purchase user selected
+  const [user, setUser] = useState(null); // user from google sign in 
+  const [outText, setOutText] = useState('plat') // for services to display different graphs
+  const [menuHint, setMenuHint] = useState(false) // helper for users
   // wheither section has been viewed or not
   const [sectionViewed, setSectionViewed] = useState({
     home: true,
@@ -89,14 +90,14 @@ const App = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoaded(true);
-
+      setMenuHint(true)
     }, 1); // 1ms delay (can be increaed to simulate loading)
 
     return () => clearTimeout(timeout);
   }, []);
 
   // runs when user clicks "sign in with google" button
-  const signIn = () => {
+  const signIn = async () => {
     // check if this is new user
     async function checkForUser(uid) {
       const docSnap = await getDoc(doc(db, "users", uid))
@@ -143,11 +144,13 @@ const App = () => {
           addUser({
             email: result.user.email,
             name: result.user.displayName.split(" (")[0],
-            spendingGoal: 0
+            spendingGoal: 0,
+            subscription: 'silver',
           }, result.user.uid)
         }
         // user exists
         setUser(result.user)
+        handleSlide()
       })
     })
     .catch((error) => {
@@ -156,17 +159,53 @@ const App = () => {
   }
 
   // user is signed in, access their profile
-  if(user) {
+  if(user && accessPage) {
     return (
-      <SignedIn user={user} setUser={setUser} />
+      <SignedIn user={user} setUser={setUser} setAccessPage={setAccessPage} />
     );
   }
+
+  // handles banner slide in on sign in
+  const handleSlide = () => {
+    setTimeout(() => {
+      setIsVisible(true);
+      setTimeout(() => {
+        setIsVisible(false)
+      }, 3000);
+    }, 500)
+  };
 
   // user is not signed in at this point (welcome)
   return (
     <div className={`App-welcome-before ${isLoaded ? 'App-welcome' : ''}`}>
+      {menuHint ? (
+        <div className='menu-button-helper-wrapper'>
+          <div className='helper-arrow-wrapper'>
+            <img src={Arrow} alt='arrow' />
+          </div>
+          <div className='helper-word'>
+            <h1>Click for menu!</h1>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+      {displayPurchase ? (
+        <Purchase setDisplayPurchases={setDisplayPurchases} selectedPurchase={selectedPurchase} user={user} signIn={signIn} setAccessPage={setAccessPage} />
+      ) : (
+        <></>
+      )}
+      {user ? (
+        <div className={`sliding-div ${isVisible ? 'slide-in' : 'slide-out'}`}>
+          <h1>Welcome, {user.displayName.split(" ")[0]}</h1>
+        </div>
+      ) : (
+        <div className={`sliding-div ${isVisible ? 'slide-in' : 'slide-out'}`}>
+          <h1>Sign out successful!</h1>
+      </div>
+      )}
       <div className='welcome-navbar'>
-        <Navbar />
+        <Navbar signIn={signIn} user={user} setUser={setUser} handleSlide={handleSlide} setAccessPage={setAccessPage} setIsVisible={setIsVisible} setMenuHint={setMenuHint} />
       </div>
       <Section id='home' isViewed={sectionViewed.home}>
         <div className='welcome-items-container'>
@@ -224,9 +263,9 @@ const App = () => {
             {outText === 'gold' ? (
               <img src={ChartGold} alt='gold' />
             ) : outText === 'plat' ? (
-              <img src={ChartPlat} alt='gold' />
+              <img src={ChartPlat} alt='plat' />
             ) : (
-              <img src={Chart} alt='gold' />
+              <img src={Chart} alt='silver' />
             )}
           </div>
         <div className='services-text'>
@@ -234,10 +273,11 @@ const App = () => {
             <h1>What we offer:</h1>
           </div>
 
-          <div 
+          <button 
             className='services-row-silver'
             style={outText === 'silver' ? {transition: 'ease-in .2s', background: 'rgba(255,255,255,0.05)', cursor: 'pointer'} : {}}
             onMouseEnter={() => setOutText("silver")}
+            onClick={() => {setDisplayPurchases(true); setSelectedPurchase('Silver')}}
           >
             <div className='services-row-header'>
               <h1 style={outText === 'silver' ? {transition: 'ease-in .2s', fontWeight: 800} : {}} className='silver'>Silver: </h1>
@@ -247,12 +287,13 @@ const App = () => {
               <li>Basic tracking and charts</li>
               <li>Basic charts and data for stocks</li>
             </div>
-          </div>
+          </button>
 
-          <div 
+          <button 
             className='services-row-gold'
             style={outText === 'gold' ? {transition: 'ease-in .2s', background: 'rgba(255,255,255,0.05)', cursor: 'pointer'} : {}}
             onMouseEnter={() => setOutText('gold')}
+            onClick={() => {setDisplayPurchases(true); setSelectedPurchase('Gold')}}
           >
             <div className='services-row-header'>
               <h1 style={outText === 'gold' ? {transition: 'ease-in .2s', fontWeight: 800} : {}} className='gold'>Gold: </h1>
@@ -262,12 +303,13 @@ const App = () => {
               <li>Advanced tracking with enhanced data and charts</li>
               <li>Advanced charts, data, and news for stocks</li>
             </div>
-          </div>
+          </button>
 
-          <div 
+          <button 
             className='services-row-plat'
             style={outText === 'plat' ? {transition: 'ease-in .2s', background: 'rgba(255,255,255,0.05)', cursor: 'pointer'} : {}}
             onMouseEnter={() => setOutText('plat')}
+            onClick={() => {setDisplayPurchases(true); setSelectedPurchase('Platinum')}}
           >
             <div className='services-row-header'>
               <h1 style={outText === 'plat' ? {transition: 'ease-in .2s', fontWeight: 800} : {}} className='plat'>Platinum: </h1>
@@ -277,7 +319,7 @@ const App = () => {
               <li>World-class tracking with enhanced data, charts, and analysis</li>
               <li>State of the art charts, data, news, and screeners for stocks</li>
             </div>
-          </div>
+          </button>
         </div>
         </div>
       </Section>
@@ -337,64 +379,6 @@ const App = () => {
   );
 }
 export default App;
-
-const Navbar = () => {
-  return (
-    <nav className='Navbar'>
-        <div className='navbar-grid-wrapper'>
-            <div className='navbar-left-buttons'>
-                <Link className="navButton"
-                  to="home" // section name
-                  smooth={true} // smooth scroll
-                  duration={500} // 500ms
-                >
-                  <img style={{width: '25px'}} src={Home} alt='Home' />
-                </Link>
-                <Link className="navButton"
-                  to="about" // section name
-                  smooth={true} // smooth scroll
-                  duration={500} // 500ms
-                >
-                  <img style={{width: '25px'}} src={Info} alt='Home' />
-                </Link>
-                <Link className="navButton"
-                  to="services" // section name
-                  smooth={true} // smooth scroll
-                  duration={500} // 500ms
-                >
-                  <img style={{width: '25px'}} src={Service} alt='Home' />
-                </Link>
-                <span style={{
-                    background: '#7950F2',
-                    width: '1px', 
-                    height: '60%',
-                    margin: '0 10px'
-                }}></span>
-                <a href='https://github.com/aidanjames97' className='navButton'>
-                  <img style={{width: '25px'}} src={Github} alt='Home' />
-                </a>
-                <a href='https://aidanjames.ca/' className='navButton'>
-                <img style={{width: '25px'}} src={Web} alt='Home' />
-                </a>
-                <span style={{
-                    background: '#7950F2', 
-                    width: '1px', 
-                    height: '60%',
-                    margin: '0 10px'
-                }}></span>
-                <div className='navbar-date'>
-                    <h2>{date.getFullYear()}</h2>
-                    <h1>{months[date.getMonth()]} {date.getDate()}</h1>
-                </div>
-            </div>
-            <div className='empty-middle'></div>
-            <div className='navbar-right-button'>
-              <img src={sLine} alt='logo' />
-            </div>
-        </div>
-    </nav>
-  )
-}
 
 
 // defining section

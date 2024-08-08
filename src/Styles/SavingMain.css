@@ -19,3 +19,8 @@
     background: rgba(173, 216, 230, 0.05);
     border-radius: 5px;
 }
+.saving-body-container {
+    width: 98%;
+    height: 93%;
+    margin: 1%;
+}

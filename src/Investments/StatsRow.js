@@ -19,7 +19,7 @@ function formatPercent(num) {
 // to delete, sample data
 const sampleData = [65, 59, 80, 81, 56, 55, 40, 59, 66, 88, 78, 60]
 
-function StatsRow({ stock, finance, setClickedIndex, index, toRemove, setToRemove, setReload, reload, clickIndex }) {
+function StatsRow({ stock, finance, setClickedIndex, index, toRemove, setToRemove, setReload, reload, clickIndex, user }) {
   const [loading, setLoading] = useState(false);
 
   let textColor = GREEN_COLOR;
@@ -28,7 +28,7 @@ function StatsRow({ stock, finance, setClickedIndex, index, toRemove, setToRemov
   }
 
   async function del(id) {
-    await deleteDoc(doc(db, 'stocks', id));
+    await deleteDoc(doc(db, `users/${user.uid}/stocks`, id));
   }
 
   function removeStock(id) {

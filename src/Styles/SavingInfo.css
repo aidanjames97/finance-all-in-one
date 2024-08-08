@@ -1,0 +1,28 @@
+.SavingInfo {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    border: 1px solid;
+}
+
+.saving-goal-wrapper {
+    width: 100%;
+    height: 100%;
+}
+.saving-goal-container {
+    margin: 1%;
+
+    border: 1px solid;
+}
+
+.saving-current-wrapper {
+    width: 100%;
+    height: 100%;
+}
+.saving-current-container {
+    margin: 1%;
+
+    border: 1px solid;
+}

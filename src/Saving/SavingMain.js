@@ -2,12 +2,12 @@ import React from 'react'
 import BlurPopout from '../BlurPopout'
 import "../Styles/SavingMain.css"
 import BarChart from "../Charts/BarChart"
-import { reload } from 'firebase/auth'
+import SavingInfo from "./SavingInfo"
 
 const sampleDataExp = [600, 500, 700, 610, 460, 350, 300, 490, 560, 800, 608, 440]
 const goal = [550, 550, 550, 550, 550, 550, 550, 550, 550, 550, 550, 550]
 
-function SavingMain({ blurBack, setBlurBack, fromWhat, setReload, reload, user, userData, setUserData }) {
+function SavingMain({ blurBack, setBlurBack, fromWhat, setReload, reload, user, userData, setUserData, setAccessPage, setUser }) {
   return (
     <div className='SavingMain'>
       {blurBack ? 
@@ -18,8 +18,10 @@ function SavingMain({ blurBack, setBlurBack, fromWhat, setReload, reload, user, 
           setReload={setReload}
           reload={reload}
           user={user}
+          setUser={setUser}
           userData={userData}
           setUserData={setUserData}
+          setAccessPage={setAccessPage}
         />
       ) : (
       <></>
@@ -33,7 +35,9 @@ function SavingMain({ blurBack, setBlurBack, fromWhat, setReload, reload, user, 
         />
       </div>
       <div className='saving-body-wrapper'>
-
+        <div className='saving-body-container'>
+          <SavingInfo />
+        </div>
       </div>
     </div>
   )
